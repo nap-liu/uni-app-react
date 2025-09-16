@@ -354,13 +354,18 @@ export function UniAppReact(): Plugin {
             fileName: `comp${tmpExts.xml}`,
             source: tmpGen.buildBaseComponentTemplate(tmpExts.xml),
           })
+          this.emitFile({
+            type: 'asset',
+            fileName: `document${tmpExts.xml}`,
+            source: `${tmpGen.buildPageTemplate(`./base${tmpExts.xml}`)}`,
+          })
+        } else {
+          this.emitFile({
+            type: 'asset',
+            fileName: `document${tmpExts.xml}`,
+            source: `${tmpGen.buildPageTemplate(`./base${tmpExts.xml}`)}\n${tmpGen.buildTemplate(componentConfig)}`,
+          })
         }
-
-        this.emitFile({
-          type: 'asset',
-          fileName: `document${tmpExts.xml}`,
-          source: `${tmpGen.buildPageTemplate(`./base${tmpExts.xml}`)}\n${tmpGen.buildTemplate(componentConfig)}`,
-        })
 
         this.emitFile({
           type: 'asset',
