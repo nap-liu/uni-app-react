@@ -1,0 +1,33 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+.DS_Store
+dist
+*.local
+.hbuilderx/*
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.vscode/*
+# projects/*/src/manifest.json
+# projects/*/src/ext.json
+# projects/*/src/pages.json
+.eslintrc-auto-import.json
+stats.html
+
+# project.config.json
+project.private.config.json
+
+*.wgt
+dist

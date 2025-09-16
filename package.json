@@ -1,0 +1,16 @@
+{
+  "name": "@js-css/packages_root",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.1",
+  "devDependencies": {
+    "prettier": "^3.6.2"
+  }
+}
