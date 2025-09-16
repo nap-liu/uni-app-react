@@ -1,14 +1,8 @@
 import {
-  attachMPShadow,
-  initialMPShadow,
-  MPCustomElements,
-  MPDocument,
   MPHTMLElement,
-  MPShadowDomElement,
-  runtimeCustomElements,
-  runtimeDocument,
+  runtimeCustomElements
 } from '@js-css/uni-app-react'
-import { shallowReactive, shallowRef, getCurrentInstance } from 'vue'
+import { shallowReactive } from 'vue'
 import { ProxyComponentName } from './common'
 
 export class MPVueProxyHTMLElement extends MPHTMLElement {

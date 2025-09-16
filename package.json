@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "private": true,
-  "scripts": {
-  },
+  "scripts": {},
   "keywords": [],
   "author": "",
   "license": "ISC",

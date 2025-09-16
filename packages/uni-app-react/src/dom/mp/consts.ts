@@ -26,5 +26,7 @@ export const OBJECT = 'object'
 export const VALUE = 'value'
 export const INPUT = 'input'
 export const CHANGE = 'change'
+export const CHECKED = 'checked'
+export const SELECTED = 'selected'
 
 export const EMPTY_OBJ = {}

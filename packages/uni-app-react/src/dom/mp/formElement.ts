@@ -1,42 +1,43 @@
+import { CHANGE, CHECKED, INPUT, SELECTED, TYPE, VALUE } from './consts'
 import { MPHTMLElement } from './element'
 import { MPEvent } from './events'
 
 export class MPFormElement extends MPHTMLElement {
   get type() {
-    return this.getAttribute('type') ?? ''
+    return this.getAttribute(TYPE) ?? ''
   }
   set type(val: string) {
-    this.setAttribute('type', val)
+    this.setAttribute(TYPE, val)
   }
 
   get value() {
-    return this.getAttribute('value') ?? ''
+    return this.getAttribute(VALUE) ?? ''
   }
   set value(val: string) {
-    this.setAttribute('value', val)
+    this.setAttribute(VALUE, val)
   }
 
   get checked() {
-    return this.getAttribute('checked') ?? ''
+    return this.getAttribute(CHECKED) ?? ''
   }
   set checked(val: string) {
-    this.setAttribute('checked', val)
+    this.setAttribute(CHECKED, val)
   }
 
   get selected() {
-    return this.getAttribute('selected') ?? ''
+    return this.getAttribute(SELECTED) ?? ''
   }
   set selected(val: string) {
-    this.setAttribute('selected', val)
+    this.setAttribute(SELECTED, val)
   }
 
   public dispatchEvent(event: MPEvent) {
     if (event.mpEvent) {
       const val = event.mpEvent.detail.value
-      if (event.type === 'change') {
-        this.attributes.set('value', val)
-      } else if (event.type === 'input') {
-        this.value = val
+      if (event.type === CHANGE) {
+        this.attributes.set(VALUE, val)
+      } else if (event.type === INPUT) {
+        this.value = val as any
       }
     }
     return super.dispatchEvent(event)

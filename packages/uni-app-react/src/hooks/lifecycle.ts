@@ -32,7 +32,7 @@ import {
 import { useRef } from 'react'
 import { onUnmounted } from 'vue'
 
-const lifeCycleMap = {
+const lifeCycleMap: Record<string, any> = {
   // onAddToFavorites,
   onBackPress,
   onError,
@@ -83,6 +83,7 @@ export const useDispatchLifeCycle = () => {
 
   const keys = Object.keys(lifeCycleMap) as Array<LifeCycleType>
   keys.forEach((key) => {
+    // @ts-ignore
     lifeCycleMap[key]((...args) => {
       // console.log('dispatchLifeCycle', id, key, args)
       dispatchLifeCycle(id, key, args)

@@ -1,6 +1,6 @@
 import { MPCustomEvent, runtimeDocument } from '@js-css/uni-app-react'
 // @ts-ignore
-import { createRoot, debugFiberAsJSX, render, unmount } from 'react'
+import { render } from 'react'
 import { eventHandler } from './common'
 
 declare global {
