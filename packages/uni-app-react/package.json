@@ -9,6 +9,7 @@
     "小程序"
   ],
   "files": [
+    "src",
     "dist",
     "doc",
     "example",
