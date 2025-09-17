@@ -42,6 +42,9 @@
     "@babel/types": "^7.x",
     "typescript": "^5.x"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "nap.liu",
   "license": "ISC",
   "description": "让uniapp拥有react能力"
