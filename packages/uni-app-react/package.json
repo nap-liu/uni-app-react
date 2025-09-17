@@ -2,6 +2,11 @@
   "name": "@js-css/uni-app-react",
   "version": "0.0.1",
   "main": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nap-liu/uni-app-react.git",
+    "directory": "packages/uni-app-react"
+  },
   "keywords": [
     "uni-app",
     "uni-app-react",
