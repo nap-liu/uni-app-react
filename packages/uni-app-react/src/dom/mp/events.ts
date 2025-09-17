@@ -245,7 +245,6 @@ export class MPEventTarget {
     callback: EventListener,
     options: EventListenerOptions = {}
   ) {
-    // TODO event change render element
     if (!callback) return
     const opts = normalOptions(options)
 
@@ -259,6 +258,9 @@ export class MPEventTarget {
         set.delete(listener)
         break
       }
+    }
+    if (!set.size) {
+      this.listeners.delete(type)
     }
   }
 

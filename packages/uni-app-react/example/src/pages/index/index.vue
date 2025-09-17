@@ -170,8 +170,22 @@ const handleRender = () => {
             {false}
           </View>
         </SubComponent>
-        {value % 2 === 0 ? <View>hello react</View> : null}
-        <View>{value}</View>
+        <View>{value % 2 === 0 ? <View>hello react</View> : null}</View>
+        {value % 2 === 1 ? (
+          <View
+            onClick={() => {
+              console.log('click view')
+            }}
+          >
+            click view
+            {value}
+          </View>
+        ) : (
+          <View>
+            pure view
+            {value}
+          </View>
+        )}
         <Button onClick={() => setValue((v) => v + 1)}>count +</Button>
         <Button onClick={() => setValue((v) => v - 1)}>count -</Button>
         <Button

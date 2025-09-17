@@ -1,6 +1,6 @@
 import { ELEMENT_NODE } from './consts'
-import { MPEvent } from './events'
 import { MPNode, MPText } from './node'
+import { getElementAlias } from './render'
 import { MPCSSStyleDeclaration } from './style'
 import { DOMTokenList } from './tokenList'
 
@@ -34,6 +34,35 @@ export class MPElement extends MPNode {
           path: this._path,
           name,
           value,
+        },
+      }
+    })
+  }
+
+  addEventListener(...args: any): void {
+    const hasEvent = this.hasAnyEvent()
+    super.addEventListener.apply(this, args)
+    const nextHasEvent = this.hasAnyEvent()
+    if (hasEvent !== nextHasEvent) {
+      this.changeElement()
+    }
+  }
+
+  removeEventListener(...args: any): void {
+    const hasEvent = this.hasAnyEvent()
+    super.removeEventListener.apply(this, args)
+    const nextHasEvent = this.hasAnyEvent()
+    if (hasEvent !== nextHasEvent) {
+      this.changeElement()
+    }
+  }
+
+  changeElement() {
+    this._root?.enqueueUpdate(() => {
+      const { alias } = getElementAlias(this)
+      return {
+        value: {
+          [`${this._path}.nn`]: alias._num,
         },
       }
     })

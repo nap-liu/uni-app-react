@@ -76,9 +76,7 @@ function resolveViewTemplate(
   return 'view'
 }
 
-export function render(node: MPNode, onlySelf = false) {
-  let vnode: any = {}
-
+export function getElementAlias(node: MPNode) {
   let viewName = node.nodeName.toLowerCase()
 
   switch (viewName) {
@@ -98,6 +96,16 @@ export function render(node: MPNode, onlySelf = false) {
   const alias = componentAlias[viewName] || {
     _num: viewName,
   }
+  return {
+    viewName,
+    alias,
+  }
+}
+
+export function render(node: MPNode, onlySelf = false) {
+  let vnode: any = {}
+
+  const { alias, viewName } = getElementAlias(node)
 
   if (node instanceof MPCharacterData) {
     vnode = {
@@ -154,24 +162,9 @@ export function toAliasProp(
   path: string,
   prop: { name: string; value: any }
 ) {
-  let viewName = node.nodeName.toLowerCase()
-
-  switch (viewName) {
-    case 'view':
-      viewName = resolveViewTemplate(node as MPHTMLElement)
-      break
-    case 'text':
-    case 'image':
-      if (node.hasAnyEvent()) {
-        viewName = viewName
-      } else {
-        viewName = `static-${viewName}`
-      }
-      break
-  }
+  const { alias, viewName } = getElementAlias(node)
 
   const props = {} as Record<string, any>
-  const alias = componentAlias[viewName] || componentAlias.view
 
   let key = prop.name
   const value = prop.value

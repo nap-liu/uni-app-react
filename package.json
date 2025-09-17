@@ -17,6 +17,6 @@
     "prettier": "^3.6.2"
   },
   "dependencies": {
-    "changesets": "^1.0.2"
+    "@changesets/cli": "^2.29.7"
   }
 }
