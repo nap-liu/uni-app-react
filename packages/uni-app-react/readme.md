@@ -16,7 +16,34 @@ React Vue 双框架无缝使用，混合开发
 - **React**：在 uni-app 项目中直接编写和运行 React 组件，兼容微信/支付宝/钉钉/H5/APP 平台。
 - **Vue in React**：Vue 组件可以无缝在 React 中使用
 
-### 综合示例
+### 示例
+
+#### 不同环境运行效果图
+
+<div style="display: flex; gap: 20px; text-align: center; flex-wrap: wrap">
+  <div style="border: 1px solid #eee; max-width: 200px;">
+    <h5>微信小程序</h5>
+    <img src="./doc/img/mp-weixin.gif" />
+  </div>
+  <div style="border: 1px solid #eee; max-width: 200px;">
+    <h5>支付宝小程序</h5>
+    <img src="./doc/img/mp-alipay.gif" />
+  </div>
+  <div style="border: 1px solid #eee; max-width: 200px;">
+    <h5>H5</h5>
+    <img src="./doc/img/h5.gif" />
+  </div>
+  <div style="border: 1px solid #eee; max-width: 200px;">
+    <h5>IOS</h5>
+    <img src="./doc/img/ios.gif" />
+  </div>
+  <div style="border: 1px solid #eee; max-width: 200px;">
+    <h5>Android</h5>
+    <img src="./doc/img/android.gif" />
+  </div>
+</div>
+
+#### 示例代码
 
 ```vue
 <template>

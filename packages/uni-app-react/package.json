@@ -20,7 +20,7 @@
   "scripts": {
     "build:plugin": "tsc -p ./plugins/tsconfig.json",
     "dev:plugin": "tsc -p ./plugins/tsconfig.json --watch",
-    "prepublish": "npm run build:plugin"
+    "prepublish": "rm -rf dist && npm run build:plugin"
   },
   "peerDependencies": {
     "@dcloudio/uni-app": "^3.0.0-4070520250711001",
