@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "publish-packages": "changeset publish"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

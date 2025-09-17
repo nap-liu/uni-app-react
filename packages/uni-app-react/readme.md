@@ -425,6 +425,27 @@ export default defineConfig({
 })
 ```
 
+
+在 `pages.json` 中添加一个全局组件 `"document": "/document"` 该组件由插件自动注入
+
+```json
+{
+  "pages": [
+    ...
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    ...
+    // 添加一个固定的全局组件，该组件由插件自动注入，只需要添加配置即可
+    "usingComponents": {
+      "document": "/document"
+    }
+  }
+}
+
+```
+
+
 ## 欢迎提交PR
 
 本插件是个人开发并持续迭代中，现阶段肯定是不完善的，欢迎各路大神提issue，欢迎各路大神提PR
