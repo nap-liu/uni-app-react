@@ -20,28 +20,10 @@ React Vue 双框架无缝使用，混合开发
 
 #### 不同环境运行效果图
 
-<div style="display: flex; gap: 20px; text-align: center; flex-wrap: wrap">
-  <div style="border: 1px solid #eee;">
-    <h5>微信小程序</h5>
-    <img width="200" src="https://raw.githubusercontent.com/nap-liu/uni-app-react/refs/heads/master/packages/uni-app-react/doc/img/mp-weixin.gif" />
-  </div>
-  <div style="border: 1px solid #eee;">
-    <h5>支付宝小程序</h5>
-    <img width="200" src="https://raw.githubusercontent.com/nap-liu/uni-app-react/refs/heads/master/packages/uni-app-react/doc/img/mp-alipay.gif" />
-  </div>
-  <div style="border: 1px solid #eee;">
-    <h5>H5</h5>
-    <img width="200" src="https://raw.githubusercontent.com/nap-liu/uni-app-react/refs/heads/master/packages/uni-app-react/doc/img/h5.gif" />
-  </div>
-  <div style="border: 1px solid #eee;">
-    <h5>IOS</h5>
-    <img width="200" src="https://raw.githubusercontent.com/nap-liu/uni-app-react/refs/heads/master/packages/uni-app-react/doc/img/ios.gif" />
-  </div>
-  <div style="border: 1px solid #eee;">
-    <h5>Android</h5>
-    <img width="200" src="https://raw.githubusercontent.com/nap-liu/uni-app-react/refs/heads/master/packages/uni-app-react/doc/img/android.gif" />
-  </div>
-</div>
+| 微信小程序 | 支付宝小程序 | H5 | IOS | Android |
+|-|-|-|-|-|
+| ![](https://raw.githubusercontent.com/nap-liu/uni-app-react/refs/heads/master/packages/uni-app-react/doc/img/mp-weixin.gif) | ![](https://raw.githubusercontent.com/nap-liu/uni-app-react/refs/heads/master/packages/uni-app-react/doc/img/mp-alipay.gif) | ![](https://raw.githubusercontent.com/nap-liu/uni-app-react/refs/heads/master/packages/uni-app-react/doc/img/h5.gif) | ![](https://raw.githubusercontent.com/nap-liu/uni-app-react/refs/heads/master/packages/uni-app-react/doc/img/ios.gif) | ![](https://raw.githubusercontent.com/nap-liu/uni-app-react/refs/heads/master/packages/uni-app-react/doc/img/android.gif) |
+
 
 #### 示例代码
 
@@ -462,7 +444,6 @@ export default defineConfig({
 
 您的支持就是我的最大动力
 
-<div style="display: flex; align-items: center; gap: 20px">
-  <img src="https://raw.githubusercontent.com/nap-liu/uni-app-react/refs/heads/master/packages/uni-app-react/doc/img/weixin.jpg" width="200" />
-  <img src="https://raw.githubusercontent.com/nap-liu/uni-app-react/refs/heads/master/packages/uni-app-react/doc/img/alipay.jpg" width="200" />
-</div>
+|微信|支付宝|
+|-|-|
+|<img src="https://raw.githubusercontent.com/nap-liu/uni-app-react/refs/heads/master/packages/uni-app-react/doc/img/weixin.jpg" width="200" /> | <img src="https://raw.githubusercontent.com/nap-liu/uni-app-react/refs/heads/master/packages/uni-app-react/doc/img/alipay.jpg" width="200" />|
