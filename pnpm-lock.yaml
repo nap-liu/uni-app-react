@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      changesets:
+        specifier: ^1.0.2
+        version: 1.0.2
     devDependencies:
       prettier:
         specifier: ^3.6.2
@@ -103,7 +107,7 @@ importers:
         specifier: 3.0.0-4070520250711001
         version: 3.0.0-4070520250711001(@vueuse/core@13.8.0(vue@3.5.20(typescript@4.9.5)))(postcss@8.5.6)(rollup@4.50.0)(vue@3.5.20(typescript@4.9.5))
       '@js-css/uni-app-react':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:..
       '@types/react':
         specifier: ^19.1.12
@@ -2004,6 +2008,9 @@ packages:
   chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
     engines: {node: '>=10'}
+
+  changesets@1.0.2:
+    resolution: {integrity: sha512-lnXvvqJEcK0z/6RtwKNLbejazl+Hxd1bocMcNgfLHWb4rGxuqkO/LdeGNzwIx3jHj+fNWZ6AGgK5AqNBwva4Xg==}
 
   char-regex@1.0.2:
     resolution: {integrity: sha512-kWWXztvZ5SBQV+eRgKFeh8q5sLuZY2+8WUIzlxWVTg+oGwY14qylx1KbKzHd8P6ZYkAg0xyIDU9JMHhyJMZ1jw==}
@@ -6851,6 +6858,8 @@ snapshots:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
+
+  changesets@1.0.2: {}
 
   char-regex@1.0.2: {}
 

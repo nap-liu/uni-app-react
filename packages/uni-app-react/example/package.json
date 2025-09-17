@@ -54,7 +54,7 @@
     "@dcloudio/uni-mp-weixin": "3.0.0-4070520250711001",
     "@dcloudio/uni-mp-xhs": "3.0.0-4070520250711001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-4070520250711001",
-    "@js-css/uni-app-react": "workspace:^",
+    "@js-css/uni-app-react": "workspace:*",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
     "@types/react-is": "^19.0.0",

@@ -5,7 +5,7 @@ import * as path from 'node:path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [uni(), UniAppReact()],
+  plugins: [UniAppReact(), uni()],
   optimizeDeps: {
     // 禁用预构建该包，避免缓存
     exclude: ['@js-css/uni-app-react'],

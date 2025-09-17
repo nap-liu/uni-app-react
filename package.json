@@ -11,5 +11,8 @@
   "packageManager": "pnpm@10.12.1",
   "devDependencies": {
     "prettier": "^3.6.2"
+  },
+  "dependencies": {
+    "changesets": "^1.0.2"
   }
 }

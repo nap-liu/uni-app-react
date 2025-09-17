@@ -55,8 +55,6 @@ const handleRender2 = () => {
   const Switch = () => {
     const [visible, setVisible] = useState(true)
 
-    const [calenderVisible, setCalenderVisible] = useState(false)
-
     useEffect(() => {
       if (!visible) {
         renderRef.value?.unmount(id)
@@ -96,11 +94,10 @@ const handleRender2 = () => {
             modelValue={time.getTime()}
             onConfirm={(result) => {
               console.log('calendar confirm', result)
-              setCalenderVisible(false)
               setTime(new Date(result.value))
             }}
           >
-            选择日期
+            select date
           </wd-calendar>
 
           <wd-card>
