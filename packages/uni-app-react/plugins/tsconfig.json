@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES2020",
+    "outDir": "../dist/plugins/jsx",
+    "declaration": true,
+    "sourceMap": true,
+    "jsx": "preserve",
+    "noUnusedLocals": false,
+    "skipLibCheck": true,
+    "baseUrl": "./"
+  },
+  "exclude": ["node_modules"],
+  "include": ["jsx"]
+}

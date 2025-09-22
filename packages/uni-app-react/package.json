@@ -1,0 +1,56 @@
+{
+  "name": "@js-css/uni-app-react",
+  "version": "0.0.4",
+  "main": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nap-liu/uni-app-react.git",
+    "directory": "packages/uni-app-react"
+  },
+  "keywords": [
+    "uni-app",
+    "uni-app-react",
+    "react",
+    "小程序"
+  ],
+  "files": [
+    "src",
+    "dist",
+    "doc",
+    "example",
+    "document.vue",
+    "react.vue",
+    "readme.md",
+    "package.json"
+  ],
+  "scripts": {
+    "build:plugin": "tsc -p ./plugins/tsconfig.json",
+    "dev:plugin": "tsc -p ./plugins/tsconfig.json --watch",
+    "prepublish": "rm -rf dist && npm run build:plugin"
+  },
+  "peerDependencies": {
+    "@dcloudio/uni-app": "^3.0.0-4070520250711001",
+    "@dcloudio/uni-h5": "^3.0.0-4070520250711001",
+    "@vue/shared": "^3.x",
+    "vue": "^3.x"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.0",
+    "@types/react": "^19.x",
+    "react": "^19.x",
+    "vite": "^5.x"
+  },
+  "dependencies": {
+    "@babel/core": "^7.x",
+    "@babel/plugin-transform-react-jsx": "^7.x",
+    "@babel/preset-typescript": "^7.x",
+    "@babel/types": "^7.x",
+    "typescript": "^5.x"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "nap.liu",
+  "license": "ISC",
+  "description": "让uniapp拥有react能力"
+}

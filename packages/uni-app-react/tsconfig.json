@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "jsx": "preserve",
+    "lib": ["esnext", "dom"],
+    "outDir": "dist",
+    "useDefineForClassFields": true,
+    "declaration": true,
+    "baseUrl": "./",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "paths": {
+      "@js-css/uni-app-react": ["./src"]
+    },
+    "resolveJsonModule": true,
+    "types": [],
+    "strict": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/*.d.ts", "src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx"]
+}
