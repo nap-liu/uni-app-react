@@ -203,7 +203,6 @@ export class MPEventTarget {
     options: EventListenerOptions = {}
   ) {
     if (!callback) return
-    // TODO event change render element
 
     const option = normalOptions(options)
 

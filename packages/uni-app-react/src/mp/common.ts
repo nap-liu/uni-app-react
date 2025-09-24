@@ -1,5 +1,5 @@
 import {
-  createEvent,
+  hook,
   MPDocument,
   MpEvent,
   runtimeDocument,
@@ -13,14 +13,17 @@ export const eventHandler = (event: MpEvent) => {
   const dom = (runtimeDocument as any as MPDocument).getElementBySid(
     currentTarget.dataset?.sid
   )
+
   if (dom) {
     const mpEvent = Array.isArray(__args__) ? __args__[0] : event
-    dom.dispatchEvent(createEvent(mpEvent, dom))
 
-    if (mpEvent.type === 'tap') {
-      const clickEvent = createEvent(mpEvent, dom)
-      clickEvent.type = 'click'
-      dom.dispatchEvent(clickEvent)
+    const payload = {
+      event: mpEvent,
+      dom,
     }
+
+    hook.emit('beforeDispatchEvent', payload)
+    hook.emit('dispatchEvent', payload)
+    hook.emit('afterDispatchEvent', payload)
   }
 }

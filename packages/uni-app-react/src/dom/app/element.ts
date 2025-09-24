@@ -1,6 +1,6 @@
+import { camelize, capitalize, stringifyStyle } from '@vue/shared'
 import { nextTick } from 'vue'
 import { runtimeCustomElements } from '../common'
-import { camelize, capitalize, stringifyStyle } from '@vue/shared'
 
 declare global {
   namespace UniShared {
@@ -94,7 +94,7 @@ export const patchUniApp = () => {
     if (event.touches && !Array.isArray(event.touches)) {
       event.touches = Object.values(event.touches)
     }
-
+    // TODO hook dispatch event
     return originDispatchEvent.call(this, event)
   }
 

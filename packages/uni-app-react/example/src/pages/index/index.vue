@@ -5,17 +5,28 @@
 </template>
 
 <script setup lang="tsx">
-import { Button, connectVueObserver, View } from '@js-css/uni-app-react'
+import { Button, connectVueObserver, Render, View } from '@js-css/uni-app-react'
 import ReactRender from '@js-css/uni-app-react/react.vue'
 import { useEffect, useRef, useState } from 'react'
 import { ref } from 'vue'
 import type { CalendarExpose } from 'wot-design-uni/components/wd-calendar/types'
+import { Input } from './Input'
 
-const renderRef = ref<any>()
+const renderRef = ref<Render>()
 
-const handleMounted = (event: any) => {
+const Test = () => {
+  return (
+    <View>
+      <View style={{ border: '1px solid red' }}>
+        <Input />
+      </View>
+    </View>
+  )
+}
+const handleMounted = (event: Render) => {
   renderRef.value = event
   console.log('react mounted', event)
+  event.render(<Test />)
 }
 
 const visibleRef = ref(false)

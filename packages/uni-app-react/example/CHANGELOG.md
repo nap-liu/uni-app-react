@@ -1,5 +1,14 @@
 # @js-css/uni-app-react-demo
 
+## 0.0.5
+
+### Patch Changes
+
+- feat: add core hook
+  fix: preact focus & blur event
+- Updated dependencies
+  - @js-css/uni-app-react@0.0.5
+
 ## 0.0.4
 
 ### Patch Changes

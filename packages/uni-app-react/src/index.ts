@@ -1,4 +1,6 @@
-export * from './dom'
 export * from './components'
-export * from './hooks'
+export * from './dom'
+export * from './hook'
+export * from './lifecycle'
 export * from './react'
+
