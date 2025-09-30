@@ -1,5 +1,11 @@
 # @js-css/uni-app-react
 
+## 0.0.7
+
+### Patch Changes
+
+- fix: hook event ref error
+
 ## 0.0.6
 
 ### Patch Changes

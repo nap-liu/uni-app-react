@@ -1,4 +1,4 @@
-import { hook } from '@js-css/uni-app-react'
+import { hook } from '../../hook'
 import { runtimeCustomElements } from '../common/customElements'
 import { controlledComponent, DOCUMENT_NODE } from './consts'
 import { MPHTMLElement } from './element'

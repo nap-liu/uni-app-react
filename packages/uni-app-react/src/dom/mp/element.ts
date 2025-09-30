@@ -1,4 +1,4 @@
-import { hook } from '@js-css/uni-app-react'
+import { hook } from '../../hook'
 import { ELEMENT_NODE } from './consts'
 import { MPNode, MPText } from './node'
 import { getElementAlias } from './render'
