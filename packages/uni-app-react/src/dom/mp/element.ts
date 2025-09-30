@@ -1,3 +1,4 @@
+import { hook } from '@js-css/uni-app-react'
 import { ELEMENT_NODE } from './consts'
 import { MPNode, MPText } from './node'
 import { getElementAlias } from './render'
@@ -11,16 +12,26 @@ export class MPElement extends MPNode {
   }
 
   setAttribute(name: string, value: any) {
+    const event = { node: this, name, value }
+    hook.emit('setAttribute', event)
     const nextValue = value
     this.attributes.set(name, nextValue)
     this.enqueueAttrUpdate(name, nextValue)
   }
 
   getAttribute(name: string) {
-    return this.attributes.get(name)
+    const event = {
+      node: this,
+      name,
+      value: this.attributes.get(name),
+    }
+    hook.emit('getAttribute', event)
+    return event.value
   }
 
   removeAttribute(name: string) {
+    const event = { node: this, name }
+    hook.emit('removeAttribute', event)
     this.attributes.delete(name)
     this.enqueueAttrUpdate(name, '')
   }

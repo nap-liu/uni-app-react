@@ -1,5 +1,13 @@
 # @js-css/uni-app-react
 
+## 0.0.6
+
+### Patch Changes
+
+- feat:
+  1. add event & element create hook
+  2. adj lifecycle to outsite
+
 ## 0.0.5
 
 ### Patch Changes

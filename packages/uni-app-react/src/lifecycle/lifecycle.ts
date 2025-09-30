@@ -78,13 +78,17 @@ const getPageId = () => {
   return `${idx}-${page.route}`
 }
 
-export const useDispatchLifeCycle = () => {
+export const useDispatchLifeCycle = (extraLifeCycle?: Record<string, any>) => {
   const id = getPageId()
+  const lifeCycle = {
+    ...lifeCycleMap,
+    ...(extraLifeCycle || {}),
+  }
 
-  const keys = Object.keys(lifeCycleMap) as Array<LifeCycleType>
+  const keys = Object.keys(lifeCycle) as Array<LifeCycleType>
   keys.forEach((key) => {
     // @ts-ignore
-    lifeCycleMap[key]((...args) => {
+    lifeCycle[key]((...args) => {
       // console.log('dispatchLifeCycle', id, key, args)
       dispatchLifeCycle(id, key, args)
     })

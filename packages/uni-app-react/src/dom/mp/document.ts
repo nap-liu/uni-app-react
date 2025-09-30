@@ -1,5 +1,6 @@
-import { controlledComponent, DOCUMENT_NODE } from './consts'
+import { hook } from '@js-css/uni-app-react'
 import { runtimeCustomElements } from '../common/customElements'
+import { controlledComponent, DOCUMENT_NODE } from './consts'
 import { MPHTMLElement } from './element'
 import { MPFormElement } from './formElement'
 import { MPNode, MPText } from './node'
@@ -54,6 +55,7 @@ export class MPDocument extends MPNode {
         break
     }
     el.ownerDocument = this
+    hook.emit('createElement', { node: el, tag })
     return el
   }
 

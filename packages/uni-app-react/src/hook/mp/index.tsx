@@ -6,12 +6,12 @@ import {
 } from '@js-css/uni-app-react'
 
 type DispatchEvent = {
-  dom: MPHTMLElement
+  node: MPHTMLElement
   event: MpEvent
 }
 
 hook.on('dispatchEvent', (data: DispatchEvent) => {
-  const { event, dom } = data
+  const { event, node } = data
   if (event.type === 'tap') {
     event.type = 'click'
   } else if (event.type === 'focus') {
@@ -19,5 +19,5 @@ hook.on('dispatchEvent', (data: DispatchEvent) => {
   } else if (event.type === 'blur') {
     event.type = 'focusout'
   }
-  dom.dispatchEvent(createEvent(event, dom))
+  node.dispatchEvent(createEvent(event, node))
 })

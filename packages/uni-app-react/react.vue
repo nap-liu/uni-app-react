@@ -6,7 +6,6 @@ import {
   DocumentComponentInstance,
   Render,
   RootElement,
-  useDispatchLifeCycle,
   vueRenderContext,
 } from '@js-css/uni-app-react'
 import { createRef } from 'react'
@@ -27,8 +26,6 @@ import { useAppVueProxyElement } from '@js-css/uni-app-react'
 const $emit = defineEmits<{
   (e: 'mounted', render: Render): void
 }>()
-
-useDispatchLifeCycle()
 
 const $vm = getCurrentInstance()
 const documentInstanceRef = shallowRef<DocumentComponentInstance | null>(null)

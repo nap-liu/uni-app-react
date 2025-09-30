@@ -18,8 +18,8 @@ export const eventHandler = (event: MpEvent) => {
     const mpEvent = Array.isArray(__args__) ? __args__[0] : event
 
     const payload = {
+      node: dom,
       event: mpEvent,
-      dom,
     }
 
     hook.emit('beforeDispatchEvent', payload)
