@@ -33,7 +33,7 @@ import { useRef } from 'react'
 import { onUnmounted } from 'vue'
 
 const lifeCycleMap: Record<string, any> = {
-  // onAddToFavorites,
+  onAddToFavorites,
   onBackPress,
   onError,
   onExit,
@@ -53,9 +53,9 @@ const lifeCycleMap: Record<string, any> = {
   onReachBottom,
   onReady,
   onResize,
-  // onSaveExitState,
-  // onShareAppMessage,
-  // onShareTimeline,
+  onSaveExitState,
+  onShareAppMessage,
+  onShareTimeline,
   onTabItemTap,
   onThemeChange,
   onUnhandledRejection,
@@ -65,6 +65,8 @@ const lifeCycleMap: Record<string, any> = {
 }
 
 type LifeCycleType = keyof typeof lifeCycleMap
+
+type Callback = (...args: any[]) => any
 
 const lifecycleHookMap: Map<
   string,
@@ -78,19 +80,18 @@ const getPageId = () => {
   return `${idx}-${page.route}`
 }
 
-export const useDispatchLifeCycle = (extraLifeCycle?: Record<string, any>) => {
+export const useDispatchLifeCycle = () => {
   const id = getPageId()
   const lifeCycle = {
     ...lifeCycleMap,
-    ...(extraLifeCycle || {}),
   }
 
   const keys = Object.keys(lifeCycle) as Array<LifeCycleType>
   keys.forEach((key) => {
     // @ts-ignore
     lifeCycle[key]((...args) => {
-      // console.log('dispatchLifeCycle', id, key, args)
-      dispatchLifeCycle(id, key, args)
+      console.log('dispatchLifeCycle', id, key, args)
+      return dispatchLifeCycle(id, key, args)
     })
   })
 
@@ -104,11 +105,18 @@ export const dispatchLifeCycle = (
   type: LifeCycleType,
   payload: any[]
 ) => {
-  setTimeout(() => {
+  const isAsync = ['onInit', 'onLoad', 'onShow', 'onReady'].includes(type)
+  if (isAsync) {
+    setTimeout(() => {
+      const hooks = lifecycleHookMap.get(id)?.get(type)
+      // console.log('async hook', id, type, payload, hooks)
+      hooks?.forEach((hook) => hook(...payload))
+    })
+  } else {
     const hooks = lifecycleHookMap.get(id)?.get(type)
-    // console.log('hook', id, type, payload, hooks)
-    hooks?.forEach((hook) => hook(...payload))
-  })
+    // console.log('sync hook', id, type, payload, hooks)
+    return hooks?.reduce((_, hook) => hook(...payload), null)
+  }
 }
 
 const attachLifeCycle = (
@@ -130,265 +138,224 @@ const attachLifeCycle = (
   }
   pageHook.set(type, hooks)
 
-  const index = hooks.length
-
   hooks.push(callback)
 
   return () => {
-    hooks.splice(index, 1)
+    const index = hooks.indexOf(callback)
+    if (index !== -1) {
+      hooks.splice(index, 1)
+    }
   }
 }
 
 type Dispose = (() => void) | null
-// export const useAddToFavorites = (callback: (...args: any) => any) => {
-//   const dispose = useRef<Dispose | null>(null)
-//   if (!dispose.current) {
-//     dispose.current = attachLifeCycle('onAddToFavorites', (...args) => {
-//       return callback(...args)
-//     })
-//   }
-// }
-export const useBackPress = (callback: (...args: any) => any) => {
-  const dispose = useRef<Dispose | null>(null)
-  if (!dispose.current) {
-    dispose.current = attachLifeCycle('onBackPress', (...args) => {
-      return callback(...args)
-    })
-  }
-}
-export const useError = (callback: (...args: any) => any) => {
-  const dispose = useRef<Dispose | null>(null)
-  if (!dispose.current) {
-    dispose.current = attachLifeCycle('onError', (...args) => {
-      return callback(...args)
-    })
-  }
-}
-export const useExit = (callback: (...args: any) => any) => {
-  const dispose = useRef<Dispose | null>(null)
-  if (!dispose.current) {
-    dispose.current = attachLifeCycle('onExit', (...args) => {
-      return callback(...args)
-    })
-  }
-}
-export const useInit = (callback: (...args: any) => any) => {
-  const dispose = useRef<Dispose | null>(null)
-  if (!dispose.current) {
-    dispose.current = attachLifeCycle('onInit', (...args) => {
-      return callback(...args)
-    })
-  }
-}
-export const useLaunch = (callback: (...args: any) => any) => {
-  const dispose = useRef<Dispose | null>(null)
-  if (!dispose.current) {
-    dispose.current = attachLifeCycle('onLaunch', (...args) => {
-      return callback(...args)
-    })
-  }
-}
-export const useLoad = (callback: (...args: any) => any) => {
-  const dispose = useRef<Dispose | null>(null)
-  if (!dispose.current) {
-    dispose.current = attachLifeCycle('onLoad', (...args) => {
-      return callback(...args)
-    })
-  }
-}
-export const useNavigationBarButtonTap = (callback: (...args: any) => any) => {
-  const dispose = useRef<Dispose | null>(null)
-  if (!dispose.current) {
-    dispose.current = attachLifeCycle('onNavigationBarButtonTap', (...args) => {
-      return callback(...args)
-    })
-  }
-}
-export const useNavigationBarSearchInputChanged = (
-  callback: (...args: any) => any
+export const useAddToFavorites: typeof onAddToFavorites = (
+  callback: Callback
 ) => {
   const dispose = useRef<Dispose | null>(null)
   if (!dispose.current) {
-    dispose.current = attachLifeCycle(
-      'onNavigationBarSearchInputChanged',
-      (...args) => {
-        return callback(...args)
-      }
-    )
+    dispose.current = attachLifeCycle('onAddToFavorites', callback)
   }
 }
-export const useNavigationBarSearchInputClicked = (
-  callback: (...args: any) => any
+export const useBackPress: typeof onBackPress = (callback: Callback) => {
+  const dispose = useRef<Dispose | null>(null)
+  if (!dispose.current) {
+    dispose.current = attachLifeCycle('onBackPress', callback)
+  }
+}
+export const useError: typeof onError = (callback: Callback) => {
+  const dispose = useRef<Dispose | null>(null)
+  if (!dispose.current) {
+    dispose.current = attachLifeCycle('onError', callback)
+  }
+}
+export const useExit: typeof onExit = (callback: Callback) => {
+  const dispose = useRef<Dispose | null>(null)
+  if (!dispose.current) {
+    dispose.current = attachLifeCycle('onExit', callback)
+  }
+}
+export const useInit: typeof onInit = (callback: Callback) => {
+  const dispose = useRef<Dispose | null>(null)
+  if (!dispose.current) {
+    dispose.current = attachLifeCycle('onInit', callback)
+  }
+}
+export const useLaunch: typeof onLaunch = (callback: Callback) => {
+  const dispose = useRef<Dispose | null>(null)
+  if (!dispose.current) {
+    dispose.current = attachLifeCycle('onLaunch', callback)
+  }
+}
+export const useLoad: typeof onLoad = (callback: Callback) => {
+  const dispose = useRef<Dispose | null>(null)
+  if (!dispose.current) {
+    dispose.current = attachLifeCycle('onLoad', callback)
+  }
+}
+export const useNavigationBarButtonTap: typeof onNavigationBarButtonTap = (
+  callback: Callback
 ) => {
   const dispose = useRef<Dispose | null>(null)
   if (!dispose.current) {
-    dispose.current = attachLifeCycle(
-      'onNavigationBarSearchInputClicked',
-      (...args) => {
-        return callback(...args)
-      }
-    )
+    dispose.current = attachLifeCycle('onNavigationBarButtonTap', callback)
   }
 }
-export const useNavigationBarSearchInputConfirmed = (
-  callback: (...args: any) => any
+export const useNavigationBarSearchInputChanged: typeof onNavigationBarSearchInputChanged =
+  (callback: Callback) => {
+    const dispose = useRef<Dispose | null>(null)
+    if (!dispose.current) {
+      dispose.current = attachLifeCycle(
+        'onNavigationBarSearchInputChanged',
+        callback
+      )
+    }
+  }
+export const useNavigationBarSearchInputClicked: typeof onNavigationBarSearchInputClicked =
+  (callback: Callback) => {
+    const dispose = useRef<Dispose | null>(null)
+    if (!dispose.current) {
+      dispose.current = attachLifeCycle(
+        'onNavigationBarSearchInputClicked',
+        callback
+      )
+    }
+  }
+export const useNavigationBarSearchInputConfirmed: typeof onNavigationBarSearchInputConfirmed =
+  (callback: Callback) => {
+    const dispose = useRef<Dispose | null>(null)
+    if (!dispose.current) {
+      dispose.current = attachLifeCycle(
+        'onNavigationBarSearchInputConfirmed',
+        callback
+      )
+    }
+  }
+export const useNavigationBarSearchInputFocusChanged: typeof onNavigationBarSearchInputFocusChanged =
+  (callback: Callback) => {
+    const dispose = useRef<Dispose | null>(null)
+    if (!dispose.current) {
+      dispose.current = attachLifeCycle(
+        'onNavigationBarSearchInputFocusChanged',
+        callback
+      )
+    }
+  }
+export const usePageHide: typeof onPageHide = (callback: Callback) => {
+  const dispose = useRef<Dispose | null>(null)
+  if (!dispose.current) {
+    dispose.current = attachLifeCycle('onPageHide', callback)
+  }
+}
+export const usePageNotFound: typeof onPageNotFound = (callback: Callback) => {
+  const dispose = useRef<Dispose | null>(null)
+  if (!dispose.current) {
+    dispose.current = attachLifeCycle('onPageNotFound', callback)
+  }
+}
+export const usePageScroll: typeof onPageScroll = (callback: Callback) => {
+  const dispose = useRef<Dispose | null>(null)
+  if (!dispose.current) {
+    dispose.current = attachLifeCycle('onPageScroll', callback)
+  }
+}
+export const usePageShow: typeof onPageShow = (callback: Callback) => {
+  const dispose = useRef<Dispose | null>(null)
+  if (!dispose.current) {
+    dispose.current = attachLifeCycle('onPageShow', callback)
+  }
+}
+export const usePullDownRefresh: typeof onPullDownRefresh = (
+  callback: Callback
 ) => {
   const dispose = useRef<Dispose | null>(null)
   if (!dispose.current) {
-    dispose.current = attachLifeCycle(
-      'onNavigationBarSearchInputConfirmed',
-      (...args) => {
-        return callback(...args)
-      }
-    )
+    dispose.current = attachLifeCycle('onPullDownRefresh', callback)
   }
 }
-export const useNavigationBarSearchInputFocusChanged = (
-  callback: (...args: any) => any
+export const useReachBottom: typeof onReachBottom = (callback: Callback) => {
+  const dispose = useRef<Dispose | null>(null)
+  if (!dispose.current) {
+    dispose.current = attachLifeCycle('onReachBottom', callback)
+  }
+}
+export const useReady: typeof onReady = (callback: Callback) => {
+  const dispose = useRef<Dispose | null>(null)
+  if (!dispose.current) {
+    dispose.current = attachLifeCycle('onReady', callback)
+  }
+}
+export const useResize: typeof onResize = (callback: Callback) => {
+  const dispose = useRef<Dispose | null>(null)
+  if (!dispose.current) {
+    dispose.current = attachLifeCycle('onResize', callback)
+  }
+}
+export const useSaveExitState: typeof onSaveExitState = (
+  callback: Callback
 ) => {
   const dispose = useRef<Dispose | null>(null)
   if (!dispose.current) {
-    dispose.current = attachLifeCycle(
-      'onNavigationBarSearchInputFocusChanged',
-      (...args) => {
-        return callback(...args)
-      }
-    )
+    dispose.current = attachLifeCycle('onSaveExitState', callback)
   }
 }
-export const usePageHide = (callback: (...args: any) => any) => {
+export const useShareAppMessage: typeof onShareAppMessage = (
+  callback: Callback
+) => {
   const dispose = useRef<Dispose | null>(null)
   if (!dispose.current) {
-    dispose.current = attachLifeCycle('onPageHide', (...args) => {
-      return callback(...args)
-    })
+    dispose.current = attachLifeCycle('onShareAppMessage', callback)
+  }
+  // useEffect(() => {
+  //   return () => {
+  //     console.log('dispose', dispose.current)
+  //     dispose.current?.()
+  //   }
+  // }, [])
+}
+export const useShareTimeline: typeof onShareTimeline = (
+  callback: Callback
+) => {
+  const dispose = useRef<Dispose | null>(null)
+  if (!dispose.current) {
+    dispose.current = attachLifeCycle('onShareTimeline', callback)
   }
 }
-export const usePageNotFound = (callback: (...args: any) => any) => {
+export const useTabItemTap: typeof onTabItemTap = (callback: Callback) => {
   const dispose = useRef<Dispose | null>(null)
   if (!dispose.current) {
-    dispose.current = attachLifeCycle('onPageNotFound', (...args) => {
-      return callback(...args)
-    })
+    dispose.current = attachLifeCycle('onTabItemTap', callback)
   }
 }
-export const usePageScroll = (callback: (...args: any) => any) => {
+export const useThemeChange: typeof onThemeChange = (callback: Callback) => {
   const dispose = useRef<Dispose | null>(null)
   if (!dispose.current) {
-    dispose.current = attachLifeCycle('onPageScroll', (...args) => {
-      return callback(...args)
-    })
+    dispose.current = attachLifeCycle('onThemeChange', callback)
   }
 }
-export const usePageShow = (callback: (...args: any) => any) => {
+export const useUnhandledRejection: typeof onUnhandledRejection = (
+  callback: Callback
+) => {
   const dispose = useRef<Dispose | null>(null)
   if (!dispose.current) {
-    dispose.current = attachLifeCycle('onPageShow', (...args) => {
-      return callback(...args)
-    })
+    dispose.current = attachLifeCycle('onUnhandledRejection', callback)
   }
 }
-export const usePullDownRefresh = (callback: (...args: any) => any) => {
+export const useUnload: typeof onUnload = (callback: Callback) => {
   const dispose = useRef<Dispose | null>(null)
   if (!dispose.current) {
-    dispose.current = attachLifeCycle('onPullDownRefresh', (...args) => {
-      return callback(...args)
-    })
+    dispose.current = attachLifeCycle('onUnload', callback)
   }
 }
-export const useReachBottom = (callback: (...args: any) => any) => {
+export const useHide: typeof onHide = (callback: Callback) => {
   const dispose = useRef<Dispose | null>(null)
   if (!dispose.current) {
-    dispose.current = attachLifeCycle('onReachBottom', (...args) => {
-      return callback(...args)
-    })
+    dispose.current = attachLifeCycle('onHide', callback)
   }
 }
-export const useReady = (callback: (...args: any) => any) => {
+export const useShow: typeof onShow = (callback: Callback) => {
   const dispose = useRef<Dispose | null>(null)
   if (!dispose.current) {
-    dispose.current = attachLifeCycle('onReady', (...args) => {
-      return callback(...args)
-    })
-  }
-}
-export const useResize = (callback: (...args: any) => any) => {
-  const dispose = useRef<Dispose | null>(null)
-  if (!dispose.current) {
-    dispose.current = attachLifeCycle('onResize', (...args) => {
-      return callback(...args)
-    })
-  }
-}
-// export const useSaveExitState = (callback: (...args: any) => any) => {
-//   const dispose = useRef<Dispose | null>(null)
-//   if (!dispose.current) {
-//     dispose.current = attachLifeCycle('onSaveExitState', (...args) => {
-//       return callback(...args)
-//     })
-//   }
-// }
-// export const useShareAppMessage = (callback: (...args: any) => any) => {
-//   const dispose = useRef<Dispose | null>(null)
-//   if (!dispose.current) {
-//     dispose.current = attachLifeCycle('onShareAppMessage', (...args) => {
-//       return callback(...args)
-//     })
-//   }
-// }
-// export const useShareTimeline = (callback: (...args: any) => any) => {
-//   const dispose = useRef<Dispose | null>(null)
-//   if (!dispose.current) {
-//     dispose.current = attachLifeCycle('onShareTimeline', (...args) => {
-//       return callback(...args)
-//     })
-//   }
-// }
-export const useTabItemTap = (callback: (...args: any) => any) => {
-  const dispose = useRef<Dispose | null>(null)
-  if (!dispose.current) {
-    dispose.current = attachLifeCycle('onTabItemTap', (...args) => {
-      return callback(...args)
-    })
-  }
-}
-export const useThemeChange = (callback: (...args: any) => any) => {
-  const dispose = useRef<Dispose | null>(null)
-  if (!dispose.current) {
-    dispose.current = attachLifeCycle('onThemeChange', (...args) => {
-      return callback(...args)
-    })
-  }
-}
-export const useUnhandledRejection = (callback: (...args: any) => any) => {
-  const dispose = useRef<Dispose | null>(null)
-  if (!dispose.current) {
-    dispose.current = attachLifeCycle('onUnhandledRejection', (...args) => {
-      return callback(...args)
-    })
-  }
-}
-export const useUnload = (callback: (...args: any) => any) => {
-  const dispose = useRef<Dispose | null>(null)
-  if (!dispose.current) {
-    dispose.current = attachLifeCycle('onUnload', (...args) => {
-      return callback(...args)
-    })
-  }
-}
-export const useHide = (callback: (...args: any) => any) => {
-  const dispose = useRef<Dispose | null>(null)
-  if (!dispose.current) {
-    dispose.current = attachLifeCycle('onHide', (...args) => {
-      return callback(...args)
-    })
-  }
-}
-export const useShow = (callback: (...args: any) => any) => {
-  const dispose = useRef<Dispose | null>(null)
-  if (!dispose.current) {
-    dispose.current = attachLifeCycle('onShow', (...args) => {
-      return callback(...args)
-    })
+    dispose.current = attachLifeCycle('onShow', callback)
   }
 }

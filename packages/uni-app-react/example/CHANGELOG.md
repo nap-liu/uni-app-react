@@ -1,5 +1,13 @@
 # @js-css/uni-app-react-demo
 
+## 0.0.9
+
+### Patch Changes
+
+- feat: add life cycle hook
+- Updated dependencies
+  - @js-css/uni-app-react@0.0.9
+
 ## 0.0.8
 
 ### Patch Changes
