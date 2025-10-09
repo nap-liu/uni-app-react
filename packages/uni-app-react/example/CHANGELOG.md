@@ -1,5 +1,13 @@
 # @js-css/uni-app-react-demo
 
+## 0.0.10
+
+### Patch Changes
+
+- fix: remove debug
+- Updated dependencies
+  - @js-css/uni-app-react@0.0.10
+
 ## 0.0.9
 
 ### Patch Changes

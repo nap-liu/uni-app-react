@@ -1,5 +1,11 @@
 # @js-css/uni-app-react
 
+## 0.0.10
+
+### Patch Changes
+
+- fix: remove debug
+
 ## 0.0.9
 
 ### Patch Changes
