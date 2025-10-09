@@ -1,18 +1,11 @@
 # @js-css/uni-app-react-demo
 
-## 0.0.11
-
-### Patch Changes
-
-- fix: life cycle overwrite
-- Updated dependencies
-  - @js-css/uni-app-react@0.0.11
-
 ## 0.0.10
 
 ### Patch Changes
 
 - fix: remove debug
+- fix: life cycle overwrite
 - Updated dependencies
   - @js-css/uni-app-react@0.0.10
 
