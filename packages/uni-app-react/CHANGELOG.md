@@ -1,5 +1,11 @@
 # @js-css/uni-app-react
 
+## 0.0.11
+
+### Patch Changes
+
+- fix: life cycle overwrite
+
 ## 0.0.10
 
 ### Patch Changes

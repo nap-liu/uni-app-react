@@ -33,7 +33,7 @@ import { useRef } from 'react'
 import { onUnmounted } from 'vue'
 
 const lifeCycleMap: Record<string, any> = {
-  onAddToFavorites,
+  // onAddToFavorites,
   onBackPress,
   onError,
   onExit,
@@ -47,15 +47,15 @@ const lifeCycleMap: Record<string, any> = {
   onNavigationBarSearchInputFocusChanged,
   onPageHide,
   onPageNotFound,
-  onPageScroll,
+  // onPageScroll,
   onPageShow,
   onPullDownRefresh,
   onReachBottom,
   onReady,
   onResize,
   onSaveExitState,
-  onShareAppMessage,
-  onShareTimeline,
+  // onShareAppMessage,
+  // onShareTimeline,
   onTabItemTap,
   onThemeChange,
   onUnhandledRejection,
@@ -80,19 +80,25 @@ const getPageId = () => {
   return `${idx}-${page.route}`
 }
 
-export const useDispatchLifeCycle = () => {
+export const useDispatchLifeCycle = (
+  extraLifeCycle?: Record<string, Callback>
+) => {
   const id = getPageId()
   const lifeCycle = {
     ...lifeCycleMap,
+    ...(extraLifeCycle || ({} as any)),
   }
 
   const keys = Object.keys(lifeCycle) as Array<LifeCycleType>
   keys.forEach((key) => {
-    // @ts-ignore
-    lifeCycle[key]((...args) => {
-      // console.log('dispatchLifeCycle', id, key, args)
-      return dispatchLifeCycle(id, key, args)
-    })
+    const fn = lifeCycle[key]
+    if (typeof fn === 'function') {
+      // @ts-ignore
+      fn((...args) => {
+        // console.log('dispatchLifeCycle', id, key, args)
+        return dispatchLifeCycle(id, key, args)
+      })
+    }
   })
 
   onUnmounted(() => {
@@ -100,12 +106,24 @@ export const useDispatchLifeCycle = () => {
   })
 }
 
+export const createLifeCycle =
+  (type: LifeCycleType) =>
+  (...payload: any[]) => {
+    return dispatchLifeCycle(getPageId(), type, payload)
+  }
+
 export const dispatchLifeCycle = (
   id: string,
   type: LifeCycleType,
   payload: any[]
 ) => {
-  const isAsync = ['onInit', 'onLoad', 'onShow', 'onReady'].includes(type)
+  const isAsync = [
+    'onInit',
+    'onLoad',
+    'onShow',
+    'onReady',
+    'onPageShow',
+  ].includes(type)
   if (isAsync) {
     setTimeout(() => {
       const hooks = lifecycleHookMap.get(id)?.get(type)
