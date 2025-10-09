@@ -90,7 +90,7 @@ export const useDispatchLifeCycle = () => {
   keys.forEach((key) => {
     // @ts-ignore
     lifeCycle[key]((...args) => {
-      console.log('dispatchLifeCycle', id, key, args)
+      // console.log('dispatchLifeCycle', id, key, args)
       return dispatchLifeCycle(id, key, args)
     })
   })
