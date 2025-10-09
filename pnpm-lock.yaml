@@ -107,8 +107,8 @@ importers:
         specifier: 3.0.0-4070520250711001
         version: 3.0.0-4070520250711001(@vueuse/core@13.8.0(vue@3.5.20(typescript@4.9.5)))(postcss@8.5.6)(rollup@4.50.0)(vue@3.5.20(typescript@4.9.5))
       '@js-css/uni-app-react':
-        specifier: 0.0.6
-        version: 0.0.6(@dcloudio/uni-app@3.0.0-4070520250711001(@dcloudio/types@3.4.19)(@vueuse/core@13.8.0(vue@3.5.20(typescript@4.9.5)))(postcss@8.5.6)(rollup@4.50.0)(vue@3.5.20(typescript@4.9.5)))(@dcloudio/uni-h5@3.0.0-4070520250711001(@vueuse/core@13.8.0(vue@3.5.20(typescript@4.9.5)))(postcss@8.5.6)(rollup@4.50.0)(vue@3.5.20(typescript@4.9.5)))(@vue/shared@3.5.21)(vue@3.5.20(typescript@4.9.5))
+        specifier: workspace:*
+        version: link:..
       '@types/react':
         specifier: ^19.1.12
         version: 19.1.12
@@ -1522,14 +1522,6 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.30':
     resolution: {integrity: sha512-GQ7Nw5G2lTu/BtHTKfXhKHok2WGetd4XYcVKGx00SjAk8GMwgJM3zr6zORiPGuOE+/vkc90KtTosSSvaCjKb2Q==}
-
-  '@js-css/uni-app-react@0.0.6':
-    resolution: {integrity: sha512-xgHMiABNTJnDWOFxzY/alUMdoHBqvALPQ4OWTNkHLLAYGq12Mwq9XiGuM9KnHrS09Ak5yC/yQ67RW9kzEjMRzQ==}
-    peerDependencies:
-      '@dcloudio/uni-app': ^3.0.0-4070520250711001
-      '@dcloudio/uni-h5': ^3.0.0-4070520250711001
-      '@vue/shared': ^3.x
-      vue: ^3.x
 
   '@manypkg/find-root@1.1.0':
     resolution: {integrity: sha512-mki5uBvhHzO8kYYix/WRy2WX8S3B5wdVSc9D6KcU5lQNglP2yt58/VfLuAK49glRXChosY8ap2oJ1qgma3GUVA==}
@@ -6570,20 +6562,6 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
-
-  '@js-css/uni-app-react@0.0.6(@dcloudio/uni-app@3.0.0-4070520250711001(@dcloudio/types@3.4.19)(@vueuse/core@13.8.0(vue@3.5.20(typescript@4.9.5)))(postcss@8.5.6)(rollup@4.50.0)(vue@3.5.20(typescript@4.9.5)))(@dcloudio/uni-h5@3.0.0-4070520250711001(@vueuse/core@13.8.0(vue@3.5.20(typescript@4.9.5)))(postcss@8.5.6)(rollup@4.50.0)(vue@3.5.20(typescript@4.9.5)))(@vue/shared@3.5.21)(vue@3.5.20(typescript@4.9.5))':
-    dependencies:
-      '@babel/core': 7.28.3
-      '@babel/plugin-transform-react-jsx': 7.27.1(@babel/core@7.28.3)
-      '@babel/preset-typescript': 7.27.1(@babel/core@7.28.3)
-      '@babel/types': 7.28.4
-      '@dcloudio/uni-app': 3.0.0-4070520250711001(@dcloudio/types@3.4.19)(@vueuse/core@13.8.0(vue@3.5.20(typescript@4.9.5)))(postcss@8.5.6)(rollup@4.50.0)(vue@3.5.20(typescript@4.9.5))
-      '@dcloudio/uni-h5': 3.0.0-4070520250711001(@vueuse/core@13.8.0(vue@3.5.20(typescript@4.9.5)))(postcss@8.5.6)(rollup@4.50.0)(vue@3.5.20(typescript@4.9.5))
-      '@vue/shared': 3.5.21
-      typescript: 5.9.2
-      vue: 3.5.20(typescript@4.9.5)
-    transitivePeerDependencies:
-      - supports-color
 
   '@manypkg/find-root@1.1.0':
     dependencies:

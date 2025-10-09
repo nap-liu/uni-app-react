@@ -12,12 +12,13 @@ export class MPCustomElements {
   }
 }
 
-export let runtimeCustomElements: MPCustomElements
-
 // #ifdef MP || APP
-runtimeCustomElements = new MPCustomElements()
+// @ts-ignore
+export const runtimeCustomElements = new MPCustomElements()
 // #endif
 
 // #ifdef H5
-runtimeCustomElements = window.customElements as any as MPCustomElements
+// @ts-ignore
+export const runtimeCustomElements =
+  window.customElements as any as MPCustomElements
 // #endif

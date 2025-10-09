@@ -1,6 +1,6 @@
 {
   "name": "@js-css/uni-app-react",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "src/index.ts",
   "repository": {
     "type": "git",

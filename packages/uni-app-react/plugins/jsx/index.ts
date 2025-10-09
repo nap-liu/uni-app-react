@@ -2,7 +2,11 @@ import { transformAsync } from '@babel/core'
 import jsxPlugin from '@babel/plugin-transform-react-jsx'
 import presetTypescript from '@babel/preset-typescript'
 import * as t from '@babel/types'
-import { internalComponents, mergeInternalComponents } from './template'
+import {
+  internalComponents,
+  mergeInternalComponents,
+  toKebabCase,
+} from './template'
 import type { Plugin } from 'vite'
 import { getPlatformTemplate } from './template'
 
@@ -20,10 +24,6 @@ export function UniAppReact(): Plugin {
   const platformTemplate = getPlatformTemplate(platform) || ({} as any)
 
   const VIRTUAL_PREFIX = '\0vite-uni-app-react:'
-
-  const toKebabCase = function (string) {
-    return string.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
-  }
 
   const mergedInternalComponents = mergeInternalComponents(
     platformTemplate?.components || {}

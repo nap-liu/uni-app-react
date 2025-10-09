@@ -1,4 +1,6 @@
+import { hook, HookType } from '../../hook'
 import { componentAlias } from './alias'
+import { CLASS, ID, NAME, ShortName, SLOT, SLOT_VIEW, STYLE } from './consts'
 import { MPHTMLElement } from './element'
 import { MPCharacterData, MPNode } from './node'
 
@@ -22,7 +24,7 @@ function resolveViewTemplate(
   const bindanimationend = node.hasEvent('animationend')
   const bindtransitionend = node.hasEvent('transitionend')
 
-  const hasSlot = node.getAttribute('slot')
+  const hasSlot = node.getAttribute(SLOT)
 
   const catchMove = node.getAttribute('catchMove')
   const hoverClass = node.getAttribute('hoverClass')
@@ -53,7 +55,7 @@ function resolveViewTemplate(
     bindtransitionend
 
   // 只有view支持slot
-  if (hasSlot) return 'slot-view'
+  if (hasSlot) return SLOT_VIEW
 
   // 优先级最高：catchTouchMove
   if (catchMove) return 'catch-view'
@@ -134,13 +136,13 @@ export function render(node: MPNode, onlySelf = false) {
     }
 
     node.attributes.forEach((value, key) => {
-      if (key === 'slot' && viewName === 'slot-view') {
-        key = 'name'
+      if (key === SLOT && viewName === SLOT_VIEW) {
+        key = NAME
       }
 
       const nextKey = alias[key] || key
 
-      if (key === 'class' || key === 'id' || key === 'style') {
+      if (key === CLASS || key === ID || key === STYLE) {
         return
       }
       if (nextKey) {
@@ -157,32 +159,42 @@ export function render(node: MPNode, onlySelf = false) {
   return vnode
 }
 
-export function toAliasProp(
+export function getAliasProp(
   node: MPNode,
   path: string,
-  prop: { name: string; value: any }
+  propName: string,
+  propValue: string
 ) {
   const { alias, viewName } = getElementAlias(node)
 
   const props = {} as Record<string, any>
 
-  let key = prop.name
-  const value = prop.value
+  let key = propName
+  const value = propValue
 
   const keyMap: Record<string, string> = {
-    class: 'cl',
-    id: 'uid',
+    class: ShortName.class,
+    id: ShortName.id,
   }
 
   let aliasKey = key
-  if (key === 'slot' && viewName === 'slot-view') {
-    aliasKey = 'name'
+  if (key === SLOT && viewName === SLOT_VIEW) {
+    aliasKey = NAME
   }
 
   const nextKey = alias[aliasKey] || keyMap[key] || key
 
+  const payload = {
+    node,
+    name: propName,
+    aliasName: nextKey,
+    value,
+  }
+
+  hook.emit(HookType.propToAlias, payload)
+
   if (nextKey) {
-    props[`${path}.${nextKey}`] = value
+    props[`${path}.${nextKey}`] = payload.value
   }
 
   return props

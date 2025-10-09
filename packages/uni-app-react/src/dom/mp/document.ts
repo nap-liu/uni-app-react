@@ -1,4 +1,4 @@
-import { hook } from '../../hook'
+import { hook, HookType } from '../../hook'
 import { runtimeCustomElements } from '../common/customElements'
 import { controlledComponent, DOCUMENT_NODE } from './consts'
 import { MPHTMLElement } from './element'
@@ -55,7 +55,7 @@ export class MPDocument extends MPNode {
         break
     }
     el.ownerDocument = this
-    hook.emit('createElement', { node: el, tag })
+    hook.emit(HookType.createElement, { node: el, tag })
     return el
   }
 

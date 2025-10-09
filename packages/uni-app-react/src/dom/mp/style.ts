@@ -1,5 +1,6 @@
+import { ShortName, UpdateQueueType } from './consts'
 import { MPHTMLElement } from './element'
-import { toCamel } from './utils'
+import { toCamelCase } from './utils'
 
 export class MPCSSStyleDeclaration {
   [key: string]: any
@@ -75,7 +76,7 @@ export class MPCSSStyleDeclaration {
       const prop = match[1].trim()
       const val = match[2].trim()
       if (prop && val != null) {
-        const camel = toCamel(prop)
+        const camel = toCamelCase(prop)
         this.styles[camel] = val
       }
     }
@@ -83,18 +84,18 @@ export class MPCSSStyleDeclaration {
   }
 
   setProperty(name: string, value: string) {
-    const camel = toCamel(name)
+    const camel = toCamelCase(name)
     this.styles[camel] = value
     this._enqueueStyleUpdate()
   }
 
   getPropertyValue(name: string) {
-    const camel = toCamel(name)
+    const camel = toCamelCase(name)
     return this.styles[camel] || ''
   }
 
   removeProperty(name: string) {
-    const camel = toCamel(name)
+    const camel = toCamelCase(name)
     delete this.styles[camel]
     this._enqueueStyleUpdate()
   }
@@ -110,9 +111,9 @@ export class MPCSSStyleDeclaration {
         self.isUpdating = false
         return {
           node: this.owner,
-          type: 'style',
+          type: UpdateQueueType.UpdateStyle,
           value: {
-            [this.owner?._path + '.st']: this.cssText,
+            [this.owner?._path + `.${ShortName.style}`]: this.cssText,
           },
         }
       })

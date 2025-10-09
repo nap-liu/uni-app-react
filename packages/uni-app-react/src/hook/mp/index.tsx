@@ -1,17 +1,9 @@
-import {
-  MPHTMLElement,
-  MpEvent,
-  createEvent,
-  hook,
-} from '@js-css/uni-app-react'
+import { HookType, createEvent, hook } from '@js-css/uni-app-react'
+import { DispatchEvent } from '../types'
 
-type DispatchEvent = {
-  node: MPHTMLElement
-  event: MpEvent
-}
-
-hook.on('dispatchEvent', (data: DispatchEvent) => {
-  const { event, node } = data
+// // preact 会把 focus、blur事件转换成可冒泡的focusin、focusout事件
+hook.on(HookType.beforeDispatchEvent, (data: DispatchEvent) => {
+  const { event } = data
   if (event.type === 'tap') {
     event.type = 'click'
   } else if (event.type === 'focus') {
@@ -19,5 +11,9 @@ hook.on('dispatchEvent', (data: DispatchEvent) => {
   } else if (event.type === 'blur') {
     event.type = 'focusout'
   }
+})
+
+hook.on(HookType.dispatchEvent, (data: DispatchEvent) => {
+  const { node, event } = data
   node.dispatchEvent(createEvent(event, node))
 })

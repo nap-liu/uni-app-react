@@ -1,5 +1,6 @@
 import {
   hook,
+  HookType,
   MPDocument,
   MpEvent,
   runtimeDocument,
@@ -19,11 +20,12 @@ export const eventHandler = (event: MpEvent) => {
 
     const payload = {
       node: dom,
+      originEvent: event,
       event: mpEvent,
     }
 
-    hook.emit('beforeDispatchEvent', payload)
-    hook.emit('dispatchEvent', payload)
-    hook.emit('afterDispatchEvent', payload)
+    hook.emit(HookType.beforeDispatchEvent, payload)
+    hook.emit(HookType.dispatchEvent, payload)
+    hook.emit(HookType.afterDispatchEvent, payload)
   }
 }

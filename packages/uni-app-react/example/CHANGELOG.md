@@ -1,5 +1,14 @@
 # @js-css/uni-app-react-demo
 
+## 0.0.8
+
+### Patch Changes
+
+- fix: fix preact boolean attr will removeattr，force sync to real prop to false
+  opt: add extra hooks to modify internal data
+- Updated dependencies
+  - @js-css/uni-app-react@0.0.8
+
 ## 0.0.7
 
 ### Patch Changes

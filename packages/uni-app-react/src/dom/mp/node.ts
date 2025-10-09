@@ -1,5 +1,5 @@
 import { MPRootElement } from './rootElement'
-import { TEXT_NODE } from './consts'
+import { ShortName, TEXT_NODE, UpdateQueueType } from './consts'
 import type { MPDocument } from './document'
 import { MPEventTarget } from './events'
 import { render } from './render'
@@ -46,9 +46,9 @@ export class MPNode extends MPEventTarget {
     this._root?.addNode(child)
     this._root?.enqueueUpdate(() => ({
       node: child,
-      type: 'appendChild',
+      type: UpdateQueueType.AppendChild,
       value: {
-        [this._path + `.cn[${idx}]`]: render(child),
+        [this._path + `.${ShortName.children}[${idx}]`]: render(child),
       },
     }))
 
@@ -65,9 +65,11 @@ export class MPNode extends MPEventTarget {
     this._root?.removeNode(child)
     this._root?.enqueueUpdate(() => ({
       node: this,
-      type: 'removeChild',
+      type: UpdateQueueType.RemoveChild,
       value: {
-        [this._path + '.cn']: this.childNodes.map((item) => render(item)),
+        [this._path + `.${ShortName.children}`]: this.childNodes.map((item) =>
+          render(item)
+        ),
       },
     }))
 
@@ -88,9 +90,11 @@ export class MPNode extends MPEventTarget {
     this._root?.addNode(child)
     this._root?.enqueueUpdate(() => ({
       node: this,
-      type: 'insertBefore',
+      type: UpdateQueueType.InsertBefore,
       value: {
-        [this._path + '.cn']: this.childNodes.map((item) => render(item)),
+        [this._path + `.${ShortName.children}`]: this.childNodes.map((item) =>
+          render(item)
+        ),
       },
     }))
 
@@ -138,7 +142,7 @@ export class MPNode extends MPEventTarget {
     if ('path' in this) return this.path as string
     if (!this.parentNode) return ''
     const idx = this.parentNode.childNodes.indexOf(this)
-    return `${this.parentNode._path}.cn[${idx}]`
+    return `${this.parentNode._path}.${ShortName.children}[${idx}]`
   }
 
   toString(indent = 0): string {
@@ -211,8 +215,9 @@ export class MPCharacterData extends MPNode {
   private enqueueTextUpdate() {
     this._root?.enqueueUpdate(() => ({
       node: this,
+      type: UpdateQueueType.UpdateText,
       value: {
-        [this._path + '.v']: this._value,
+        [this._path + `.${ShortName.value}`]: this._value,
       },
     }))
   }

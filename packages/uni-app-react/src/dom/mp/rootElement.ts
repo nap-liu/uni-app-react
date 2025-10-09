@@ -1,19 +1,21 @@
+import { hook, HookType } from '../../hook'
+import { UpdateQueueType } from './consts'
 import { MPHTMLElement } from './element'
 import { MPCustomEvent } from './events'
-// import type { MPNode, MPText } from './node'
-import { toAliasProp } from './render'
 
 type MPNode = any
+
+type UpdateQueue = () => {
+  node: MPNode
+  type: UpdateQueueType
+  value: Record<string, any>
+}
 
 export class MPRootElement extends MPHTMLElement {
   path: string
   isUpdating = false
   isCleaning = false
-  updateQueue: (() => {
-    node: MPHTMLElement
-    value: Record<string, any>
-    type: 'prop'
-  })[] = []
+  updateQueue: UpdateQueue[] = []
   cleanupQueue: MPNode[] = []
 
   constructor(path = 'root') {
@@ -51,7 +53,7 @@ export class MPRootElement extends MPHTMLElement {
     this.enqueueClean(node)
   }
 
-  enqueueUpdate = (update: any) => {
+  enqueueUpdate = (update: UpdateQueue) => {
     this.updateQueue.push(update)
 
     if (!this.isUpdating) {
@@ -72,15 +74,11 @@ export class MPRootElement extends MPHTMLElement {
     const updates = this.updateQueue.slice()
 
     const patch = updates.reduce((diff, update) => {
-      let { node, value, type } = update()
-
-      if (type === 'prop') {
-        const { path } = value
-        value = toAliasProp(node, path, value as any)
+      const payload = update()
+      hook.emit(HookType.enqueueUpdate, payload)
+      if (typeof payload.value === 'object' && payload.value !== null) {
+        Object.assign(diff, payload.value)
       }
-
-      Object.assign(diff, value)
-
       return diff
     }, {})
 

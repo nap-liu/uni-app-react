@@ -1,7 +1,7 @@
-import { hook } from '../../hook'
-import { ELEMENT_NODE } from './consts'
+import { hook, HookType } from '../../hook'
+import { CLASS, ELEMENT_NODE, ID, ShortName, UpdateQueueType } from './consts'
 import { MPNode, MPText } from './node'
-import { getElementAlias } from './render'
+import { getElementAlias, getAliasProp } from './render'
 import { MPCSSStyleDeclaration } from './style'
 import { DOMTokenList } from './tokenList'
 
@@ -13,10 +13,10 @@ export class MPElement extends MPNode {
 
   setAttribute(name: string, value: any) {
     const event = { node: this, name, value }
-    hook.emit('setAttribute', event)
+    hook.emit(HookType.setAttribute, event)
     const nextValue = value
     this.attributes.set(name, nextValue)
-    this.enqueueAttrUpdate(name, nextValue)
+    this.enqueueAttrUpdate(name, nextValue, UpdateQueueType.SetAttribute)
   }
 
   getAttribute(name: string) {
@@ -25,27 +25,28 @@ export class MPElement extends MPNode {
       name,
       value: this.attributes.get(name),
     }
-    hook.emit('getAttribute', event)
+    hook.emit(HookType.getAttribute, event)
     return event.value
   }
 
   removeAttribute(name: string) {
-    const event = { node: this, name }
-    hook.emit('removeAttribute', event)
-    this.attributes.delete(name)
-    this.enqueueAttrUpdate(name, '')
+    const event = { node: this, name, value: '' }
+    hook.emit(HookType.removeAttribute, event)
+    this.attributes.delete(event.name)
+
+    this.enqueueAttrUpdate(
+      event.name,
+      event.value,
+      UpdateQueueType.RemoveAttribute
+    )
   }
 
-  enqueueAttrUpdate(name: string, value: any) {
+  enqueueAttrUpdate(name: string, value: any, type: UpdateQueueType) {
     this._root?.enqueueUpdate(() => {
       return {
         node: this,
-        type: 'prop',
-        value: {
-          path: this._path,
-          name,
-          value,
-        },
+        type,
+        value: getAliasProp(this, this._path, name, value),
       }
     })
   }
@@ -72,8 +73,10 @@ export class MPElement extends MPNode {
     this._root?.enqueueUpdate(() => {
       const { alias } = getElementAlias(this)
       return {
+        node: this,
+        type: UpdateQueueType.ChangeElement,
         value: {
-          [`${this._path}.nn`]: alias._num,
+          [`${this._path}.${ShortName.nodeType}`]: alias._num,
         },
       }
     })
@@ -113,19 +116,19 @@ export class MPHTMLElement extends MPElement {
   }
 
   get id() {
-    return this.getAttribute('id') ?? ''
+    return this.getAttribute(ID) ?? ''
   }
 
   set id(value: string) {
-    this.setAttribute('id', value)
+    this.setAttribute(ID, value)
   }
 
   get className(): string {
-    return this.getAttribute('class') ?? ''
+    return this.getAttribute(CLASS) ?? ''
   }
 
   set className(value: string) {
-    this.setAttribute('class', value)
+    this.setAttribute(CLASS, value)
   }
 
   get innerText(): string {

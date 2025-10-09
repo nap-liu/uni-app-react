@@ -28,5 +28,31 @@ export const INPUT = 'input'
 export const CHANGE = 'change'
 export const CHECKED = 'checked'
 export const SELECTED = 'selected'
-
 export const EMPTY_OBJ = {}
+export const ID = 'id'
+export const CLASS = 'class'
+export const PATH = 'path'
+export const STYLE = 'style'
+export const SLOT = 'slot'
+export const SLOT_VIEW = 'slot-view'
+export const NAME = 'name'
+
+export const ShortName = {
+  nodeType: 'nn',
+  children: 'cn',
+  class: 'cl',
+  style: 'st',
+  id: 'uid',
+  value: 'v',
+}
+
+export enum UpdateQueueType {
+  InsertBefore = 1,
+  RemoveChild,
+  AppendChild,
+  ChangeElement,
+  UpdateText,
+  UpdateStyle,
+  SetAttribute,
+  RemoveAttribute,
+}
