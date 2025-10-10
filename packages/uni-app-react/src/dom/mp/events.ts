@@ -192,9 +192,8 @@ export class MPEventTarget {
   }
 
   hasEvent(type: string) {
-    return Array.from(this.listeners.keys()).some(
-      (i) => i.toLowerCase() === type.toLowerCase()
-    )
+    type = type.toLowerCase()
+    return Array.from(this.listeners.keys()).some((i) => i === type)
   }
 
   addEventListener(
@@ -203,6 +202,7 @@ export class MPEventTarget {
     options: EventListenerOptions = {}
   ) {
     if (!callback) return
+    type = type.toLowerCase()
 
     const option = normalOptions(options)
 
@@ -276,26 +276,12 @@ export class MPEventTarget {
   public dispatchEvent(event: MPEvent): boolean {
     const cancelable = event.cancelable
 
-    // 绑定的可能是大写，这里处理一下认为是同一个
-    const bindType = Array.from(this.listeners.keys()).find((i) => {
-      if (i.toLowerCase() === event.type.toLowerCase()) {
-        return i
-      }
-      return null
-    })
-
-    if (!bindType) {
-      return false
-    }
-
-    const listeners = this.listeners.get(bindType)
+    const listeners = this.listeners.get(event.type)
 
     if (!listeners || !listeners.size) {
       return false
     }
 
-    const originType = event.type
-    event.type = bindType
     for (const item of listeners.values()) {
       let result
       if (item.stop) {
@@ -320,7 +306,6 @@ export class MPEventTarget {
     if (event.isStopPropagation) {
       this._stopPropagation(event)
     }
-    event.type = originType
 
     return listeners != null
   }

@@ -5,6 +5,7 @@ import * as t from '@babel/types'
 import {
   internalComponents,
   mergeInternalComponents,
+  toDashed,
   toKebabCase,
 } from './template'
 import type { Plugin } from 'vite'
@@ -92,7 +93,8 @@ export function UniAppReact(): Plugin {
         },
         exit(path, state) {
           state.importedComponents.forEach((comp: string) => {
-            const importPath = `@dcloudio/uni-components/style/${comp.toLowerCase()}.css`
+            const dashedName = toDashed(comp)
+            const importPath = `@dcloudio/uni-components/style/${dashedName}.css`
 
             try {
               const resolvePath = require.resolve(importPath, {
@@ -100,7 +102,6 @@ export function UniAppReact(): Plugin {
               })
               // console.log('auto import css', importPath)
               // console.log('auto resolvePath css', resolvePath)
-
               const importDeclaration = t.importDeclaration(
                 [],
                 t.stringLiteral(resolvePath)

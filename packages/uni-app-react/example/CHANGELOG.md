@@ -1,5 +1,13 @@
 # @js-css/uni-app-react-demo
 
+## 0.0.11
+
+### Patch Changes
+
+- fix: preact event and attr
+- Updated dependencies
+  - @js-css/uni-app-react@0.0.11
+
 ## 0.0.10
 
 ### Patch Changes

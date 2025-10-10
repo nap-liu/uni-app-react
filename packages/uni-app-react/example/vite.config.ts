@@ -7,8 +7,14 @@ import * as path from 'node:path'
 export default defineConfig({
   plugins: [UniAppReact(), uni()],
   optimizeDeps: {
-    // 禁用预构建该包，避免缓存
-    exclude: ['@js-css/uni-app-react'],
+    exclude: [
+      // 这个配置只有调试包的时候才需要使用
+      // 开发调试包的话 需要同时排除下面三个包，因为vite的prebuild会独立构建出node_modules导致运行多实例问题
+      '@js-css/uni-app-react',
+      'react',
+      'react-dom',
+      'react-is',
+    ],
   },
   build: {
     target: 'es2015', // 确保最终产物兼容

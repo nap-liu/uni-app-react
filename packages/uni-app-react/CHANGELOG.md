@@ -1,5 +1,11 @@
 # @js-css/uni-app-react
 
+## 0.0.11
+
+### Patch Changes
+
+- fix: preact event and attr
+
 ## 0.0.10
 
 ### Patch Changes

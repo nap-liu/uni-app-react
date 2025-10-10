@@ -1,5 +1,6 @@
 import { Render, RenderContext } from '@js-css/uni-app-react'
 import {
+  createElement,
   Component,
   ErrorInfo,
   forwardRef,
@@ -60,6 +61,23 @@ export const RootElement = forwardRef<Render, RootElementProps>(
 
     useImperativeHandle(ref, () => render, [render])
 
+    // vite 预编译会忽略编译插件，这种情况只有h5下才会出现
+    // #ifdef H5
+    return createElement(
+      ErrorBoundary,
+      null,
+      createElement(
+        RenderContext.Provider,
+        { value: render },
+        Array.from(map.current.entries()).map(([key, element]) =>
+          createElement(Fragment, { key: key }, element)
+        )
+      )
+    )
+    // #endif
+
+    // vite 预编译会忽略编译插件，这种情况只有h5下才会出现
+    // #ifndef H5
     return (
       <ErrorBoundary>
         <RenderContext.Provider value={render}>
@@ -69,5 +87,6 @@ export const RootElement = forwardRef<Render, RootElementProps>(
         </RenderContext.Provider>
       </ErrorBoundary>
     )
+    // #endif
   }
 )

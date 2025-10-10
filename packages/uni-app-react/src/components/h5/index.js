@@ -1,8 +1,9 @@
-export * from './components'
 import * as UniComponents from '@dcloudio/uni-h5'
-import { attachMPShadow, runtimeCustomElements } from '@js-css/uni-app-react'
 import { defineCustomElement, h } from 'vue'
 import * as Components from './components'
+export * from './components'
+import { runtimeCustomElements } from '../../dom'
+import { attachMPShadow } from '../../react'
 
 // console.log('Components', Components)
 // console.log('UniComponents', UniComponents)
@@ -12,7 +13,6 @@ Object.keys(Components).forEach((key) => {
   const componentName = Components[key] || ''
   if (UniComponent && /^mp/.test(componentName)) {
     // console.log('define custom element', componentName, UniComponent)
-
     runtimeCustomElements.define(
       componentName,
       class extends defineCustomElement(UniComponent) {
@@ -28,7 +28,7 @@ Object.keys(Components).forEach((key) => {
               },
               get() {
                 return {
-                  default: () => h('slot'),
+                  default: () => [h('slot')],
                 }
               },
             })

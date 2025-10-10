@@ -5,7 +5,13 @@
 </template>
 
 <script setup lang="tsx">
-import { Button, connectVueObserver, Render, View } from '@js-css/uni-app-react'
+import {
+  Button,
+  connectVueObserver,
+  Render,
+  ScrollView,
+  View,
+} from '@js-css/uni-app-react'
 import ReactRender from '@js-css/uni-app-react/react.vue'
 import { useEffect, useRef, useState } from 'react'
 import { ref } from 'vue'
@@ -163,6 +169,7 @@ const handleRender = () => {
         }, 500)
       }
     }, [visible])
+    const [refreshing, setRefreshing] = useState(false)
     return (
       <wd-popup
         model-value={visible}
@@ -175,38 +182,62 @@ const handleRender = () => {
           console.log('close')
         }}
       >
-        <SubComponent a={2}>
-          <View>
-            {true}
-            {false}
-          </View>
-        </SubComponent>
-        <View>{value % 2 === 0 ? <View>hello react</View> : null}</View>
-        {value % 2 === 1 ? (
-          <View
-            onClick={() => {
-              console.log('click view')
+        <ScrollView
+          style={{ height: 600, backgroundColor: '#f00' }}
+          scrollY
+          onScrollToLower={(e) => console.log(e.type, e)}
+          onScrollToUpper={(e) => console.log(e.type, e)}
+          onRefresherRefresh={(e) => {
+            console.log(e.type, e)
+            setRefreshing(true)
+            setTimeout(() => {
+              setRefreshing(false)
+            }, 2000)
+          }}
+          refresherTriggered={refreshing}
+          refresherEnabled
+        >
+          {Array.from({ length: 100 }).map((item, idx) => (
+            <View
+              key={idx}
+              style={{ border: '1px solid #f0f', padding: '10rpx' }}
+            >
+              item: {idx}
+            </View>
+          ))}
+          <SubComponent a={2}>
+            <View>
+              {true}
+              {false}
+            </View>
+          </SubComponent>
+          <View>{value % 2 === 0 ? <View>hello react</View> : null}</View>
+          {value % 2 === 1 ? (
+            <View
+              onClick={() => {
+                console.log('click view')
+              }}
+            >
+              click view
+              {value}
+            </View>
+          ) : (
+            <View>
+              pure view
+              {value}
+            </View>
+          )}
+          <Button onClick={() => setValue((v) => v + 1)}>count +</Button>
+          <Button onClick={() => setValue((v) => v - 1)}>count -</Button>
+          <Button
+            onClick={(event) => {
+              console.log('remove', event)
+              setVisible(false)
             }}
           >
-            click view
-            {value}
-          </View>
-        ) : (
-          <View>
-            pure view
-            {value}
-          </View>
-        )}
-        <Button onClick={() => setValue((v) => v + 1)}>count +</Button>
-        <Button onClick={() => setValue((v) => v - 1)}>count -</Button>
-        <Button
-          onClick={(event) => {
-            console.log('remove', event)
-            setVisible(false)
-          }}
-        >
-          remove
-        </Button>
+            remove
+          </Button>
+        </ScrollView>
       </wd-popup>
     )
   }

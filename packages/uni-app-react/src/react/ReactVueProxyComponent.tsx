@@ -5,6 +5,7 @@ import {
   forwardRef,
   useImperativeHandle,
   useState,
+  createElement,
 } from 'react'
 import type { MPVueProxyHTMLElement } from './ReactVueProxy'
 
@@ -71,9 +72,17 @@ export const ReactVueProxy = forwardRef((props: any, vueInstanceRef: any) => {
     return null
   }, [elementRef.current, expose])
 
+  // vite 预编译会忽略编译插件，这种情况只有h5下才会出现
+  // #ifdef H5
+  return createElement('vue-proxy', { ref: handleProxyRef }, children)
+  // #endif
+
+  // vite 预编译会忽略编译插件，这种情况只有h5下才会出现
+  // #ifndef H5
   return (
     <vue-proxy ref={handleProxyRef} useHostElement>
       {children}
     </vue-proxy>
   )
+  // #endif
 })
