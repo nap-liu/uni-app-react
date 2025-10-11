@@ -1,5 +1,15 @@
 # @js-css/uni-app-react-demo
 
+## 0.0.12
+
+### Patch Changes
+
+- fix: app document missing unmount & fix after&before css side effect
+  feat: app event support stop event
+  todo: app event side effect origin vue event system
+- Updated dependencies
+  - @js-css/uni-app-react@0.0.12
+
 ## 0.0.11
 
 ### Patch Changes

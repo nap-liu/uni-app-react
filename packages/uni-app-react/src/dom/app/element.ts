@@ -7,10 +7,11 @@ declare global {
     export var UniElement: any
     export var UniTextNode: any
     export var UniNode: any
+    export var createUniEvent: any
   }
 }
 
-const { UniElement, UniTextNode, UniNode } = UniShared
+const { UniElement, UniTextNode, UniNode, createUniEvent } = UniShared
 const UniEventTarget = UniNode.prototype.__proto__.constructor
 
 export function normalizeEventType(
@@ -35,6 +36,16 @@ export const patchUniApp = () => {
   const originAddEventListener = UniEventTarget.prototype.addEventListener
   // const originRemoveEventListener = UniEventTarget.prototype.removeEventListener
 
+  UniEventTarget.prototype._stopPropagation = function (event: any) {
+    let target = this
+    while ((target = target.parentNode as any)) {
+      const listeners = target.listeners[event.type]
+      listeners?.forEach((item: any) => {
+        item.stop = true
+      })
+    }
+  }
+
   UniEventTarget.prototype.addEventListener = function (
     type: string,
     listener: Function,
@@ -43,6 +54,10 @@ export const patchUniApp = () => {
     // preact 和 uniapp 的type不兼容，preact是监听的type严格不能变，uniapp会携带[on] prefix
     function patchedEventListener(this: any, event: any) {
       // console.log('proxyListener', type, event, event.type)
+      if (patchedEventListener.stop) {
+        patchedEventListener.stop = false
+        return
+      }
       const originType = event.type
       event.type = type
       const result = listener.call(this, event)
@@ -51,6 +66,7 @@ export const patchUniApp = () => {
     }
 
     patchedEventListener.originListener = listener
+    patchedEventListener.stop = false
 
     return originAddEventListener.call(
       this,
@@ -88,14 +104,19 @@ export const patchUniApp = () => {
   const originDispatchEvent = UniEventTarget.prototype.dispatchEvent
   UniEventTarget.prototype.dispatchEvent = function (event: any) {
     // console.log('dispatchEvent', event)
+    event = createUniEvent(event)
     if (event.changedTouches && !Array.isArray(event.changedTouches)) {
       event.changedTouches = Object.values(event.changedTouches)
     }
     if (event.touches && !Array.isArray(event.touches)) {
       event.touches = Object.values(event.touches)
     }
-    // TODO hook dispatch event
-    return originDispatchEvent.call(this, event)
+    // TODO 这里会影响原始vue部分的事件逻辑 需要优化
+    const result = originDispatchEvent.call(this, event)
+    if (event._stop) {
+      this._stopPropagation(event)
+    }
+    return result
   }
 
   // patch 文本元素赋值字符串类型问题

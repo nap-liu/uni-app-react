@@ -7,7 +7,7 @@
   <!-- #endif -->
 </template>
 <script lang="tsx" setup>
-import { getCurrentInstance, onMounted, ref } from 'vue'
+import { getCurrentInstance, onMounted, onBeforeUnmount, ref } from 'vue'
 // @ts-ignore
 import { ReactElement, render } from 'react'
 
@@ -36,6 +36,10 @@ onMounted(() => {
   $emit('mounted', { detail: proxy })
 })
 
+onBeforeUnmount(() => {
+  render(null, react.value)
+})
+
 defineExpose(proxy)
 </script>
 <style>
@@ -43,13 +47,24 @@ defineExpose(proxy)
 :global(mp-slot),
 :global(app-slot),
 :global([mp]) {
-  display: contents;
+  display: contents !important;
+}
+
+:global(vue-proxy::before),
+:global(mp-slot::before),
+:global(app-slot::before),
+:global([mp]::before),
+:global(vue-proxy::after),
+:global(mp-slot::after),
+:global(app-slot::after),
+:global([mp]::after) {
+  display: none !important;
 }
 
 /* #ifdef APP  */
 :global(app-shadow-dom),
 :global(app-fragment) {
-  display: none;
+  display: none !important;
 }
 /* #endif */
 </style>
