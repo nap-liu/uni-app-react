@@ -132,7 +132,7 @@ export class MPHTMLElement extends MPElement {
   }
 
   get innerText(): string {
-    return this.textContent || ''
+    return this.textContent ?? ''
   }
   set innerText(value: string) {
     this.textContent = value

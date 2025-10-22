@@ -19,7 +19,7 @@ export class MPCSSStyleDeclaration {
           return (target as any)[prop]
         }
         // 允许直接访问 styles.xxx
-        return target.styles[prop] || ''
+        return target.styles[prop] ?? ''
       },
       set: (target, prop: string, value) => {
         if (prop in target) {
@@ -91,7 +91,7 @@ export class MPCSSStyleDeclaration {
 
   getPropertyValue(name: string) {
     const camel = toCamelCase(name)
-    return this.styles[camel] || ''
+    return this.styles[camel] ?? ''
   }
 
   removeProperty(name: string) {

@@ -10,6 +10,7 @@ import {
   connectVueObserver,
   Render,
   ScrollView,
+  Text,
   View,
 } from '@js-css/uni-app-react'
 import ReactRender from '@js-css/uni-app-react/react.vue'
@@ -21,11 +22,18 @@ import { Input } from './Input'
 const renderRef = ref<Render>()
 
 const Test = () => {
+  const [count, setCount] = useState(0)
   return (
     <View>
       <View style={{ border: '1px solid red' }}>
         <Input />
       </View>
+      <Button onClick={() => setCount(count + 1)}>+1</Button>
+      <Button onClick={() => setCount(count - 1)}>-1</Button>
+      <View>number: {count}</View>
+      <View>string: {`${count}`}</View>
+      <Text>number: {count}</Text>
+      <Text>string: {`${count}`}</Text>
     </View>
   )
 }

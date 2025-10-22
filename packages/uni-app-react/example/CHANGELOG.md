@@ -1,5 +1,13 @@
 # @js-css/uni-app-react-demo
 
+## 0.0.13
+
+### Patch Changes
+
+- fix: number 0 text context update to ''
+- Updated dependencies
+  - @js-css/uni-app-react@0.0.13
+
 ## 0.0.12
 
 ### Patch Changes

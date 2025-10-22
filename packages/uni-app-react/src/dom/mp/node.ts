@@ -129,7 +129,7 @@ export class MPNode extends MPEventTarget {
   set nodeValue(value: string | null) {}
 
   get textContent(): string | null {
-    return this.childNodes.map((c) => c.textContent || '').join('')
+    return this.childNodes.map((c) => c.textContent ?? '').join('')
   }
   set textContent(value: string | null) {
     this.childNodes = []
@@ -192,7 +192,7 @@ export class MPCharacterData extends MPNode {
     return this._value
   }
   set textContent(value: string | null) {
-    this._value = value || ''
+    this._value = value ?? ''
     this.enqueueTextUpdate()
   }
 

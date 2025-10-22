@@ -70,7 +70,7 @@ export class DOMTokenList {
   }
 
   syncClassName() {
-    const tokens = (this.element.className || '').split(/\s+/).filter(Boolean)
+    const tokens = `${this.element.className}`.split(/\s+/).filter(Boolean)
     this.classSet = new Set(tokens)
     this.classes = [...this.classSet]
   }

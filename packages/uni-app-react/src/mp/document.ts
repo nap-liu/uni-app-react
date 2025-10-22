@@ -93,7 +93,7 @@ export default Component({
     },
     eh: eventHandler,
     update(event: any) {
-      // console.log('update', event, this)
+      console.log('update', event, this)
       this.setData(event.detail)
     },
     destroy() {
