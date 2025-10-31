@@ -9,7 +9,7 @@ type UpdateQueue = () => {
   node: MPNode
   type: UpdateQueueType
   value: Record<string, any>
-}
+} | null
 
 export class MPRootElement extends MPHTMLElement {
   path: string
@@ -75,6 +75,9 @@ export class MPRootElement extends MPHTMLElement {
 
     const patch = updates.reduce((diff, update) => {
       const payload = update()
+      if (!payload) {
+        return diff
+      }
       hook.emit(HookType.enqueueUpdate, payload)
       if (typeof payload.value === 'object' && payload.value !== null) {
         Object.assign(diff, payload.value)

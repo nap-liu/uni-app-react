@@ -104,8 +104,18 @@ export function getElementAlias(node: MPNode) {
   }
 }
 
+export type RenderNode = {
+  sid: string
+  uid?: string
+  nn?: string
+  v?: string | null
+  cn?: RenderNode[]
+  st?: string
+  cl?: string
+} & Record<string, any>
+
 export function render(node: MPNode, onlySelf = false) {
-  let vnode: any = {}
+  let vnode: RenderNode = {} as any
 
   const { alias, viewName } = getElementAlias(node)
 
@@ -153,7 +163,7 @@ export function render(node: MPNode, onlySelf = false) {
     vnode = {
       // t: node.nodeName,
       cn: onlySelf ? [] : node.childNodes.map((c) => render(c)),
-    }
+    } as any
   }
 
   return vnode

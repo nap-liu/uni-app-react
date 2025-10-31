@@ -44,13 +44,19 @@ export class MPNode extends MPEventTarget {
     child.parentNode = this
     const idx = this.childNodes.length - 1
     this._root?.addNode(child)
-    this._root?.enqueueUpdate(() => ({
-      node: child,
-      type: UpdateQueueType.AppendChild,
-      value: {
-        [this._path + `.${ShortName.children}[${idx}]`]: render(child),
-      },
-    }))
+    this._root?.enqueueUpdate(() => {
+      const path = this._path
+      if (!path) {
+        return null
+      }
+      return {
+        node: child,
+        type: UpdateQueueType.AppendChild,
+        value: {
+          [`${path}.${ShortName.children}[${idx}]`]: render(child),
+        },
+      }
+    })
 
     return child
   }
@@ -63,15 +69,21 @@ export class MPNode extends MPEventTarget {
     this.childNodes.splice(i, 1)
     child.parentNode = null
     this._root?.removeNode(child)
-    this._root?.enqueueUpdate(() => ({
-      node: this,
-      type: UpdateQueueType.RemoveChild,
-      value: {
-        [this._path + `.${ShortName.children}`]: this.childNodes.map((item) =>
-          render(item)
-        ),
-      },
-    }))
+    this._root?.enqueueUpdate(() => {
+      const path = this._path
+      if (!path) {
+        return null
+      }
+      return {
+        node: this,
+        type: UpdateQueueType.RemoveChild,
+        value: {
+          [`${path}.${ShortName.children}`]: this.childNodes.map((item) =>
+            render(item)
+          ),
+        },
+      }
+    })
 
     return child
   }
@@ -88,15 +100,21 @@ export class MPNode extends MPEventTarget {
     this.childNodes.splice(i, 0, child)
     child.parentNode = this
     this._root?.addNode(child)
-    this._root?.enqueueUpdate(() => ({
-      node: this,
-      type: UpdateQueueType.InsertBefore,
-      value: {
-        [this._path + `.${ShortName.children}`]: this.childNodes.map((item) =>
-          render(item)
-        ),
-      },
-    }))
+    this._root?.enqueueUpdate(() => {
+      const path = this._path
+      if (!path) {
+        return null
+      }
+      return {
+        node: this,
+        type: UpdateQueueType.InsertBefore,
+        value: {
+          [`${path}.${ShortName.children}`]: this.childNodes.map((item) =>
+            render(item)
+          ),
+        },
+      }
+    })
 
     return child
   }
@@ -138,9 +156,10 @@ export class MPNode extends MPEventTarget {
     }
   }
 
-  get _path(): string {
-    if ('path' in this) return this.path as string
-    if (!this.parentNode) return ''
+  get _path(): string | null {
+    if (!this.parentNode) {
+      return null
+    }
     const idx = this.parentNode.childNodes.indexOf(this)
     return `${this.parentNode._path}.${ShortName.children}[${idx}]`
   }
@@ -213,13 +232,19 @@ export class MPCharacterData extends MPNode {
   }
 
   private enqueueTextUpdate() {
-    this._root?.enqueueUpdate(() => ({
-      node: this,
-      type: UpdateQueueType.UpdateText,
-      value: {
-        [this._path + `.${ShortName.value}`]: this._value,
-      },
-    }))
+    this._root?.enqueueUpdate(() => {
+      const path = this._path
+      if (!path) {
+        return null
+      }
+      return {
+        node: this,
+        type: UpdateQueueType.UpdateText,
+        value: {
+          [`${path}.${ShortName.value}`]: this._value,
+        },
+      }
+    })
   }
 }
 

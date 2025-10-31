@@ -1,5 +1,12 @@
 # @js-css/uni-app-react
 
+## 0.0.14
+
+### Patch Changes
+
+- fix: 更新时可能路径为空问题
+  fix: 修复部分组件h5可能丢失样式问题
+
 ## 0.0.13
 
 ### Patch Changes

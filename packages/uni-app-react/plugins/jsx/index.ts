@@ -92,10 +92,7 @@ export function UniAppReact(): Plugin {
           state.importedComponents = new Set<string>()
         },
         exit(path, state) {
-          state.importedComponents.forEach((comp: string) => {
-            const dashedName = toDashed(comp)
-            const importPath = `@dcloudio/uni-components/style/${dashedName}.css`
-
+          const tryImportStyle = (importPath: string) => {
             try {
               const resolvePath = require.resolve(importPath, {
                 paths: [rootDir],
@@ -112,6 +109,19 @@ export function UniAppReact(): Plugin {
               // console.log(`${importPath} not exists`)
               return
             }
+          }
+
+          state.importedComponents.forEach((comp: string) => {
+            const dashedName = toDashed(comp)
+
+            const packages = [
+              (name) => `@dcloudio/uni-components/style/${name}.css`,
+              (name) => `@dcloudio/uni-h5/style/${name}.css`,
+            ]
+
+            packages.forEach((getImportPath) => {
+              tryImportStyle(getImportPath(dashedName))
+            })
           })
         },
       },

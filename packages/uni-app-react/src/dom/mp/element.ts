@@ -43,10 +43,14 @@ export class MPElement extends MPNode {
 
   enqueueAttrUpdate(name: string, value: any, type: UpdateQueueType) {
     this._root?.enqueueUpdate(() => {
+      const path = this._path
+      if (!path) {
+        return null
+      }
       return {
         node: this,
         type,
-        value: getAliasProp(this, this._path, name, value),
+        value: getAliasProp(this, path, name, value),
       }
     })
   }
@@ -71,12 +75,16 @@ export class MPElement extends MPNode {
 
   changeElement() {
     this._root?.enqueueUpdate(() => {
+      const path = this._path
+      if (!path) {
+        return null
+      }
       const { alias } = getElementAlias(this)
       return {
         node: this,
         type: UpdateQueueType.ChangeElement,
         value: {
-          [`${this._path}.${ShortName.nodeType}`]: alias._num,
+          [`${path}.${ShortName.nodeType}`]: alias._num,
         },
       }
     })
