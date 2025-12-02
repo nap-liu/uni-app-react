@@ -1,6 +1,6 @@
 {
   "name": "@js-css/uni-app-react",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "main": "src/index.ts",
   "repository": {
     "type": "git",
@@ -26,7 +26,7 @@
   "scripts": {
     "build:plugin": "tsc -p ./plugins/tsconfig.json",
     "dev:plugin": "tsc -p ./plugins/tsconfig.json --watch",
-    "prepublish": "rm -rf dist && npm run build:plugin"
+    "prepublishOnly": "rm -rf dist && npm run build:plugin"
   },
   "peerDependencies": {
     "@dcloudio/uni-app": "^3.0.0-4070520250711001",

@@ -1,5 +1,11 @@
 # @js-css/uni-app-react
 
+## 0.0.16
+
+### Patch Changes
+
+- fix: update version
+
 ## 0.0.15
 
 ### Patch Changes

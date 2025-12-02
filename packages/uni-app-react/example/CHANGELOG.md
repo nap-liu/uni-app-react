@@ -1,5 +1,13 @@
 # @js-css/uni-app-react-demo
 
+## 0.0.16
+
+### Patch Changes
+
+- fix: update version
+- Updated dependencies
+  - @js-css/uni-app-react@0.0.16
+
 ## 0.0.15
 
 ### Patch Changes

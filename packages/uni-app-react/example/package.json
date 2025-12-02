@@ -1,6 +1,6 @@
 {
   "name": "@js-css/uni-app-react-demo",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "scripts": {
     "dev:custom": "uni -p",
     "dev:app": "uni -p app",
