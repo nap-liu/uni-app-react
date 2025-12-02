@@ -1,5 +1,13 @@
 # @js-css/uni-app-react-demo
 
+## 0.0.15
+
+### Patch Changes
+
+- fix: fix h5 components styles missing && events payload
+- Updated dependencies
+  - @js-css/uni-app-react@0.0.15
+
 ## 0.0.14
 
 ### Patch Changes

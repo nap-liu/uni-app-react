@@ -81,7 +81,11 @@ export function UniAppReact(): Plugin {
         if (source === packageName) {
           path.node.specifiers.forEach((specifier) => {
             if (t.isImportSpecifier(specifier)) {
-              state.importedComponents.add(specifier.local.name)
+              state.importedComponents.add(
+                t.isIdentifier(specifier.imported)
+                  ? specifier.imported.name
+                  : specifier.imported.value
+              )
             }
           })
         }

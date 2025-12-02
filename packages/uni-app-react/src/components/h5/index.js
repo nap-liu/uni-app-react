@@ -37,6 +37,13 @@ Object.keys(Components).forEach((key) => {
         get _instance() {
           return this.$instance
         }
+        // TODO 这里 event 简单粗暴重新构建了，实际上应该是 vm to vm
+        // 暂时没有发现好方法，如果preact options中做桥接时间周期上有点问题
+        dispatchEvent(event) {
+          const [detailEvent] = event.detail
+          const ev = new CustomEvent(event.type, { detail: detailEvent.detail })
+          return super.dispatchEvent(ev)
+        }
 
         _setAttr(key) {
           if (key === 'mp') {

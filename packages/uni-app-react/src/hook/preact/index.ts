@@ -4,6 +4,9 @@ import { options } from 'preact'
 // patch preact attr false value 属性移除导致的异常
 const oldDiffedHook = options.diffed
 options.diffed = function (newVNode: any) {
+  // #ifdef MP
+  // 小程序环境下 false 值是有效值，但是dom规范中 false attribute 不应该被保留
+  // vue 的defineCustomElement中做了个 defineProperty 直接从dom属性上获取了原始值
   if (typeof newVNode.type === 'string') {
     const domProp = Object.keys(newVNode).find((k) => newVNode[k]?.setAttribute)
     const dom = domProp ? newVNode[domProp] : null
@@ -18,6 +21,7 @@ options.diffed = function (newVNode: any) {
       }
     }
   }
+  // #endif
   if (oldDiffedHook) oldDiffedHook(newVNode)
 }
 
